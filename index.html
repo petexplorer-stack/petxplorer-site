@@ -95,36 +95,18 @@
   .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: #ffffff; transition: 0.3s; }
 
   /* ---- HERO ---- */
-  /* FIX: removed position:sticky — hero now scrolls normally.
-     The background image is on a pseudo-element so it doesn't leak. */
-  #hero {
+#hero {
     position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 120px 5% 80px;
-    overflow: hidden;
-    isolation: isolate;
-  }
-  /* Background image layer — separate so content can sit above */
-  #hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
     background: url('mainheader-grape.jpg') center/cover no-repeat;
-    z-index: -1;
-  }
-  /* Subtle dark overlay on the background only — keeps text legible */
-  #hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(67,67,67,0.25);
-    z-index: -1;
+    background-attachment: fixed;
   }
 
-  .hero-badge {
+.hero-badge {
     display: inline-block;
     font-size: 0.7rem;
     letter-spacing: 0.25em;
@@ -139,22 +121,22 @@
     backdrop-filter: blur(4px);
   }
 
-  /* FIX: hero text is now dark-grey, not white.
-     Using DM Sans Bold (Segoe-like clean sans) instead of Cormorant. */
-  .hero-headline {
-    font-family: 'Roboto', 'Segoe UI', -apple-system, sans-serif;
+.hero-headline {
+    font-family: var(--sans);
     color: var(--dark-grey);
     line-height: 1.05;
     margin-bottom: 2rem;
   }
-  .hero-headline .line-sm {
+
+.hero-headline .line-sm {
     display: block;
     font-size: 74px;
     font-weight: 800;
   }
-  .hero-headline .line-lg {
+
+.hero-headline .line-lg {
     display: block;
-    font-family: 'Pacifico', cursive;
+    font-family: var(--script);
     font-size: 74px;
     font-style: normal;
     font-weight: 400;
