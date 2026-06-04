@@ -6,20 +6,22 @@
 <title>PetXplorer — Premium Pet Travel Crates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
- :root {
-    --dark-grey:    #434343;
-    --mid-grey:     #888888;
-    --light-grey:   #f3f3f3;
-    --hot-pink:     #e8007a;
-    --baby-pink:    #f9c6e0;
-    --pale-pink:    #fce6f2;
-    --serif: 'Cormorant Garant', Georgia, serif;
-    --sans:  'DM Sans', system-ui, sans-serif;
-}
+  :root {
+    --dark-grey:  #434343;
+    --mid-grey:   #888888;
+    --light-grey: #f3f3f3;
+    --pale-grey:  #e8e8e8;
+    --hot-pink:   #e8007a;
+    --baby-pink:  #f9c6e0;
+    --pale-pink:  #fce6f2;
+    --serif:      'Cormorant Garant', Georgia, serif;
+    --script:     'Great Vibes', cursive;
+    --sans:       'DM Sans', system-ui, sans-serif;
+  }
 
   html { scroll-behavior: smooth; }
 
@@ -47,14 +49,14 @@
   }
   nav.scrolled {
     background: var(--dark-grey);
-    box-shadow: 0 1px 0 rgba(200,169,110,0.15);
+    box-shadow: 0 1px 0 rgba(232,0,122,0.15);
   }
   .nav-logo {
     font-family: var(--sans);
     font-weight: 500;
     font-size: 1.1rem;
     letter-spacing: 0.2em;
-    color: var(--light-grey);
+    color: #ffffff;
     text-decoration: none;
     text-transform: uppercase;
   }
@@ -66,14 +68,14 @@
     list-style: none;
   }
   .nav-links a {
-    color: rgba(245,239,227,0.7);
+    color: rgba(255,255,255,0.75);
     text-decoration: none;
     font-size: 0.78rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     transition: color 0.2s;
   }
-  .nav-links a:hover { color: var(--light-grey); }
+  .nav-links a:hover { color: #ffffff; }
   .nav-cta {
     display: inline-block;
     padding: 0.5rem 1.25rem;
@@ -88,31 +90,22 @@
   }
   .nav-cta:hover {
     background: var(--hot-pink) !important;
-    color: var(--dark-grey) !important;
+    color: #ffffff !important;
   }
   .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--light-grey); transition: 0.3s; }
+  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: #ffffff; transition: 0.3s; }
 
   /* ---- HERO ---- */
   #hero {
     min-height: 100vh;
-  position: sticky;
-  top: 0;
-    background: url('mainheader-grape.jpg') center/cover no-repeat;    flex-direction: column;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     padding: 120px 5% 80px;
-    position: relative;
+    background: url('mainheader-grape.jpg') center/cover no-repeat;
     overflow: hidden;
-  }
-  #hero::before {
-    content: '';
-    position: absolute;
-    top: -40%;
-    right: -10%;
-    width: 70vw;
-    height: 140%;
-    background: radial-gradient(ellipse at center, rgba(200,169,110,0.06) 0%, transparent 70%);
-    pointer-events: none;
   }
   .hero-badge {
     display: inline-block;
@@ -120,34 +113,37 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--hot-pink);
-    border: 1px solid rgba(200,169,110,0.35);
+    border: 1px solid rgba(232,0,122,0.4);
     padding: 0.45rem 1rem;
     border-radius: 2px;
     margin-bottom: 2.5rem;
     width: fit-content;
+    background: rgba(255,255,255,0.08);
   }
   .hero-headline {
     font-family: var(--serif);
-    color: var(--light-grey);
-    line-height: 1.0;
+    color: #ffffff;
+    line-height: 1.05;
     margin-bottom: 2rem;
   }
   .hero-headline .line-sm {
     display: block;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.8rem, 4vw, 3rem);
     font-weight: 400;
   }
   .hero-headline .line-lg {
     display: block;
-    font-size: clamp(4.5rem, 12vw, 9rem);
-    font-style: italic;
-    font-weight: 600;
+    font-family: var(--script);
+    font-size: clamp(3.5rem, 9vw, 6.5rem);
+    font-style: normal;
+    font-weight: 400;
     color: var(--hot-pink);
-    letter-spacing: -0.02em;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
   }
   .hero-sub {
     font-size: 1rem;
-    color: var(--dark-grey);
+    color: rgba(255,255,255,0.8);
     max-width: 420px;
     margin-bottom: 3rem;
     font-weight: 300;
@@ -158,7 +154,7 @@
     display: inline-block;
     padding: 1rem 2rem;
     background: var(--hot-pink);
-    color: var(--dark-grey);
+    color: #ffffff;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.15em;
@@ -167,12 +163,12 @@
     border-radius: 2px;
     transition: background 0.2s, transform 0.2s;
   }
-  .btn-primary:hover { background: var(--hot-pink-light); transform: translateY(-2px); }
+  .btn-primary:hover { background: #c4006a; transform: translateY(-2px); }
   .btn-outline {
     display: inline-block;
     padding: 1rem 2rem;
-    border: 1px solid rgba(245,239,227,0.25);
-    color: rgba(245,239,227,0.7);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.8);
     font-size: 0.75rem;
     font-weight: 400;
     letter-spacing: 0.15em;
@@ -182,8 +178,8 @@
     transition: border-color 0.2s, color 0.2s, transform 0.2s;
   }
   .btn-outline:hover {
-    border-color: rgba(245,239,227,0.6);
-    color: var(--light-grey);
+    border-color: rgba(255,255,255,0.7);
+    color: #ffffff;
     transform: translateY(-2px);
   }
   .hero-scroll-hint {
@@ -193,7 +189,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(245,239,227,0.3);
+    color: rgba(255,255,255,0.3);
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -203,18 +199,18 @@
     display: block;
     width: 30px;
     height: 1px;
-    background: rgba(245,239,227,0.3);
+    background: rgba(255,255,255,0.3);
   }
 
   /* ---- STATS ---- */
   #stats {
-    background: var(--dark-grey-mid);
+    background: var(--dark-grey);
     padding: 3.5rem 5%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
-    border-top: 1px solid rgba(200,169,110,0.15);
-    border-bottom: 1px solid rgba(200,169,110,0.15);
+    border-top: 1px solid rgba(232,0,122,0.2);
+    border-bottom: 1px solid rgba(232,0,122,0.2);
   }
   .stat-item { text-align: center; }
   .stat-number {
@@ -230,7 +226,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(245,239,227,0.45);
+    color: rgba(243,243,243,0.5);
   }
 
   /* ---- SECTION SHARED ---- */
@@ -260,7 +256,7 @@
     line-height: 1.75;
     font-weight: 300;
   }
-  .section-body.light { color: rgba(245,239,227,0.5); }
+  .section-body.light { color: rgba(243,243,243,0.6); }
 
   /* ---- CRATES ---- */
   #crates {
@@ -285,20 +281,18 @@
     position: relative;
     overflow: hidden;
     border-radius: 4px;
-    background: var(--light-grey-dark);
+    background: var(--pale-grey);
   }
   .crate-card:first-child { grid-row: 1 / 2; }
   .crate-card:nth-child(2) { grid-row: 1 / 3; }
   .crate-card:nth-child(3) { grid-row: 2 / 3; }
-  .crate-card img {
-    transition: transform 0.6s ease;
-  }
+  .crate-card img { transition: transform 0.6s ease; }
   .crate-card:hover img { transform: scale(1.03); }
   .crate-label {
     position: absolute;
     bottom: 1.25rem;
     left: 1.25rem;
-    background: rgba(12,27,46,0.75);
+    background: rgba(67,67,67,0.85);
     backdrop-filter: blur(8px);
     color: var(--light-grey);
     font-size: 0.65rem;
@@ -334,8 +328,8 @@
     inset: 0;
     background: repeating-linear-gradient(
       90deg,
-      rgba(200,169,110,0.03) 0px,
-      rgba(200,169,110,0.03) 1px,
+      rgba(232,0,122,0.03) 0px,
+      rgba(232,0,122,0.03) 1px,
       transparent 1px,
       transparent 80px
     );
@@ -364,7 +358,7 @@
   /* ---- CUSHIONS ---- */
   #cushions {
     padding: 7rem 5%;
-    background: var(--light-grey-dark);
+    background: var(--pale-grey);
   }
   .cushions-header {
     max-width: 560px;
@@ -387,7 +381,7 @@
 
   /* ---- ABOUT ---- */
   #about {
-    background: var(--dark-grey-soft);
+    background: var(--dark-grey);
     padding: 5rem 5%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -406,7 +400,7 @@
     align-items: flex-start;
     gap: 1rem;
     font-size: 0.9rem;
-    color: rgba(245,239,227,0.6);
+    color: rgba(243,243,243,0.65);
     font-weight: 300;
     line-height: 1.6;
   }
@@ -420,7 +414,7 @@
     margin-top: 0.65rem;
   }
   .about-right {
-    border-left: 1px solid rgba(200,169,110,0.2);
+    border-left: 1px solid rgba(232,0,122,0.2);
     padding-left: 4rem;
   }
   .about-quote {
@@ -436,14 +430,14 @@
 
   /* ---- FOOTER ---- */
   footer {
-    background: var(--dark-grey);
+    background: #2a2a2a;
     padding: 3rem 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1.5rem;
-    border-top: 1px solid rgba(200,169,110,0.12);
+    border-top: 1px solid rgba(232,0,122,0.15);
   }
   .footer-logo {
     font-family: var(--sans);
@@ -462,7 +456,7 @@
     flex-wrap: wrap;
   }
   .footer-links a {
-    color: rgba(245,239,227,0.4);
+    color: rgba(243,243,243,0.4);
     text-decoration: none;
     font-size: 0.75rem;
     letter-spacing: 0.1em;
@@ -472,7 +466,7 @@
   .footer-links a:hover { color: var(--light-grey); }
   .footer-contact {
     font-size: 0.8rem;
-    color: rgba(245,239,227,0.4);
+    color: rgba(243,243,243,0.4);
     font-weight: 300;
   }
   .footer-contact a {
@@ -486,10 +480,7 @@
     transform: translateY(30px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
-  .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
   .fade-up-delay-1 { transition-delay: 0.1s; }
   .fade-up-delay-2 { transition-delay: 0.2s; }
   .fade-up-delay-3 { transition-delay: 0.35s; }
@@ -505,7 +496,12 @@
     .crate-card:nth-child(3) { grid-row: 2 / 3; grid-column: 1 / 3; }
     .crates-header { flex-direction: column; align-items: flex-start; }
     #about { grid-template-columns: 1fr; gap: 3rem; }
-    .about-right { border-left: none; padding-left: 0; border-top: 1px solid rgba(200,169,110,0.2); padding-top: 2.5rem; }
+    .about-right {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid rgba(232,0,122,0.2);
+      padding-top: 2.5rem;
+    }
   }
 
   @media (max-width: 640px) {
@@ -543,10 +539,7 @@
     <li><a href="#cushions">Cushions</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li>
-      <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
-      <a href="#configure" class="nav-cta">Design Yours</a>
-    </li>
+    <li><a href="#configure" class="nav-cta">Design Yours</a></li>
   </ul>
   <div class="nav-hamburger" id="hamburger" aria-label="Open menu" role="button" tabindex="0">
     <span></span><span></span><span></span>
@@ -563,7 +556,6 @@
   </h1>
   <p class="hero-sub">Tailored to their personality, premium-built for your peace of mind.</p>
   <div class="hero-actions">
-    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
     <a href="#configure" class="btn-primary">Design Your Crate &rarr;</a>
     <a href="#crates" class="btn-outline">See the Collection &darr;</a>
   </div>
@@ -599,10 +591,8 @@
     </div>
     <p class="section-body fade-up fade-up-delay-1">Each crate features a colour-customisable base, top, and trim. Mix and match to create something completely unique to your pet.</p>
   </div>
-
   <div class="crates-grid">
     <div class="crate-card fade-up">
-      <!-- REPLACE SRC WITH YOUR OWN HOSTED IMAGE -->
       <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBQ14NrzqcfPNBvuT8er3an-bVkMh6rtI1Qp1HuSIU29n3iNKGNspZF93D4gh5XJAXY6WvoMkggu0rhvwlcB6OqLpJr7sNlHz9JaXHx_DbaVT9VopQPKOpL01lzrGxgmPnBwIdguJz44pVooowoYho_OlBbvvH7z8x-6gIgM8dK4wmAbMRhok-q7ikdUnZQ1z-8OKhPBtdKS-bWfpOi1V7Is5w7VvWGv9_D=w1280" alt="PetXplorer travel crate">
       <span class="crate-label">Signature Series</span>
     </div>
@@ -619,10 +609,8 @@
       <span class="crate-label">Adventure Ready</span>
     </div>
   </div>
-
   <div class="crates-footer fade-up">
     <p>Over 2,000 colour combinations — every crate is one of a kind.</p>
-    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
     <a href="#configure" class="btn-primary">Find Your Crate &rarr;</a>
   </div>
 </section>
@@ -632,7 +620,6 @@
   <div class="cta-band-inner fade-up">
     <p>Ready to design yours?</p>
     <h2>The perfect crate<br>for your <em>perfect companion.</em></h2>
-    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
     <a href="#configure" class="btn-primary">Open the Configurator &rarr;</a>
   </div>
 </section>
@@ -644,10 +631,8 @@
     <h2 class="section-title">Softness that<br><em>travels well.</em></h2>
     <p class="section-body" style="margin-top:1rem;">Handcrafted cushion inserts in beautiful prints, designed to keep your pet comfortable on every journey.</p>
   </div>
-
   <div class="cushions-grid">
     <div class="cushion-card fade-up">
-      <!-- REPLACE SRC WITH YOUR OWN HOSTED IMAGE -->
       <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDkzpEejlE4MQswHCLqG-3JfN1s7FCAcVtLHyvIa7bs4mFOXYbWzytkD7QjhcPfM7EPZ5SoPY35banSgzdUC3_7QLxBbb7yrt7RrwzT_UQmrUXpX2JN4aHL7M9w74TbsyQydrSUpNd2BCQxCyOacSDmhNqxJ9wRth-zJGeS4OW7SS5T1s7ZQ-rywGSEiIYz4315LsO7oKX4hoL4ReWqK2svVY0W3_12v3mW=w1280" alt="Comfort cushion">
     </div>
     <div class="cushion-card fade-up fade-up-delay-1">
@@ -662,7 +647,7 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="fade-up">
-    <p class="section-tag" style="color:var(--hot-pink);">About PetXplorer</p>
+    <p class="section-tag">About PetXplorer</p>
     <h2 class="section-title light">Built on<br><em>real expertise.</em></h2>
     <ul class="about-list">
       <li>IATA-compliant engineering for safe air and road travel</li>
@@ -673,7 +658,7 @@
   </div>
   <div class="about-right fade-up fade-up-delay-1">
     <p class="about-quote">"Every pet deserves to travel in comfort, safety, and<em> style.</em>"</p>
-    <p class="section-body light">We design and build crates that meet the highest IATA standards, without ever compromising on the details that make your pet feel at home — wherever the journey takes you.</p>
+    <p class="section-body light">We design and build crates that meet the highest IATA standards, without ever compromising on the details that make your pet feel at home, wherever the journey takes you.</p>
   </div>
 </section>
 
@@ -684,43 +669,27 @@
     <li><a href="#crates">Crates</a></li>
     <li><a href="#cushions">Cushions</a></li>
     <li><a href="#about">About</a></li>
-    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
     <li><a href="#configure">Configure</a></li>
   </ul>
   <p class="footer-contact">
     Get in touch &nbsp;
-    <!-- REPLACE WITH AMY'S ACTUAL EMAIL -->
     <a href="mailto:hello@petxplorer.com.au">hello@petxplorer.com.au</a>
   </p>
 </footer>
 
 <script>
-  // Nav scroll behaviour
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
   });
-
-  // Mobile menu
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-  });
-  hamburger.addEventListener('keydown', e => {
-    if (e.key === 'Enter') navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinks.classList.remove('open'));
-  });
-
-  // Fade-in on scroll
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  hamburger.addEventListener('keydown', e => { if (e.key === 'Enter') navLinks.classList.toggle('open'); });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
