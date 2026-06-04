@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PetXplorer — Premium Pet Travel Crates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:       #0C1B2E;
+    --navy-mid:   #162840;
+    --navy-soft:  #1E3550;
+    --cream:      #F5EFE3;
+    --cream-dark: #EDE5D3;
+    --gold:       #C8A96E;
+    --gold-light: #D9BF91;
+    --gold-pale:  #F0E6CF;
+    --text-muted: #8C9BAA;
+    --serif: 'Cormorant Garant', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  nav.scrolled {
+    background: var(--navy);
+    box-shadow: 0 1px 0 rgba(200,169,110,0.15);
+  }
+  .nav-logo {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(245,239,227,0.7);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    border-radius: 2px;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--navy) !important;
+  }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: 0.3s; }
+
+  /* ---- HERO ---- */
+  #hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 70vw;
+    height: 140%;
+    background: radial-gradient(ellipse at center, rgba(200,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(200,169,110,0.35);
+    padding: 0.45rem 1rem;
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    width: fit-content;
+  }
+  .hero-headline {
+    font-family: var(--serif);
+    color: var(--cream);
+    line-height: 1.0;
+    margin-bottom: 2rem;
+  }
+  .hero-headline .line-sm {
+    display: block;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+  }
+  .hero-headline .line-lg {
+    display: block;
+    font-size: clamp(4.5rem, 12vw, 9rem);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+  }
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(245,239,227,0.55);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border: 1px solid rgba(245,239,227,0.25);
+    color: rgba(245,239,227,0.7);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover {
+    border-color: rgba(245,239,227,0.6);
+    color: var(--cream);
+    transform: translateY(-2px);
+  }
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 5%;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,239,227,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-scroll-hint::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: rgba(245,239,227,0.3);
+  }
+
+  /* ---- STATS ---- */
+  #stats {
+    background: var(--navy-mid);
+    padding: 3.5rem 5%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    border-top: 1px solid rgba(200,169,110,0.15);
+    border-bottom: 1px solid rgba(200,169,110,0.15);
+  }
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,239,227,0.45);
+  }
+
+  /* ---- SECTION SHARED ---- */
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .section-title.light { color: var(--cream); }
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .section-body {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .section-body.light { color: rgba(245,239,227,0.5); }
+
+  /* ---- CRATES ---- */
+  #crates {
+    padding: 7rem 5%;
+    background: var(--cream);
+  }
+  .crates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+    gap: 2rem;
+  }
+  .crates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 420px 360px;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .crate-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--cream-dark);
+  }
+  .crate-card:first-child { grid-row: 1 / 2; }
+  .crate-card:nth-child(2) { grid-row: 1 / 3; }
+  .crate-card:nth-child(3) { grid-row: 2 / 3; }
+  .crate-card img {
+    transition: transform 0.6s ease;
+  }
+  .crate-card:hover img { transform: scale(1.03); }
+  .crate-label {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    background: rgba(12,27,46,0.75);
+    backdrop-filter: blur(8px);
+    color: var(--cream);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.85rem;
+    border-radius: 2px;
+  }
+  .crates-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .crates-footer p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ---- CTA BAND ---- */
+  #cta-band {
+    background: var(--navy);
+    padding: 6rem 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(200,169,110,0.03) 0px,
+      rgba(200,169,110,0.03) 1px,
+      transparent 1px,
+      transparent 80px
+    );
+  }
+  .cta-band-inner { position: relative; z-index: 1; }
+  .cta-band-inner p {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .cta-band-inner h2 {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 2.5rem;
+  }
+  .cta-band-inner h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* ---- CUSHIONS ---- */
+  #cushions {
+    padding: 7rem 5%;
+    background: var(--cream-dark);
+  }
+  .cushions-header {
+    max-width: 560px;
+    margin-bottom: 4rem;
+  }
+  .cushions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .cushion-card {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--cream);
+  }
+  .cushion-card img { transition: transform 0.6s ease; }
+  .cushion-card:hover img { transform: scale(1.04); }
+
+  /* ---- ABOUT ---- */
+  #about {
+    background: var(--navy-soft);
+    padding: 5rem 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .about-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: rgba(245,239,227,0.6);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .about-list li::before {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+    margin-top: 0.65rem;
+  }
+  .about-right {
+    border-left: 1px solid rgba(200,169,110,0.2);
+    padding-left: 4rem;
+  }
+  .about-quote {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.4;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+  .about-quote em { color: var(--gold); font-style: normal; }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: var(--navy);
+    padding: 3rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border-top: 1px solid rgba(200,169,110,0.12);
+  }
+  .footer-logo {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    color: rgba(245,239,227,0.4);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--cream); }
+  .footer-contact {
+    font-size: 0.8rem;
+    color: rgba(245,239,227,0.4);
+    font-weight: 300;
+  }
+  .footer-contact a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-up-delay-1 { transition-delay: 0.1s; }
+  .fade-up-delay-2 { transition-delay: 0.2s; }
+  .fade-up-delay-3 { transition-delay: 0.35s; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 900px) {
+    #stats { grid-template-columns: repeat(2, 1fr); }
+    .crates-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 280px 220px;
+    }
+    .crate-card:nth-child(2) { grid-row: 1 / 2; }
+    .crate-card:nth-child(3) { grid-row: 2 / 3; grid-column: 1 / 3; }
+    .crates-header { flex-direction: column; align-items: flex-start; }
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    .about-right { border-left: none; padding-left: 0; border-top: 1px solid rgba(200,169,110,0.2); padding-top: 2.5rem; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 72px; left: 0; right: 0; bottom: 0;
+      background: var(--navy);
+      padding: 3rem 5%;
+      gap: 2rem;
+      align-items: flex-start;
+      z-index: 99;
+    }
+    .nav-links.open a { font-size: 1rem; }
+    .nav-hamburger { display: flex; }
+    #stats { grid-template-columns: 1fr 1fr; gap: 2.5rem 1rem; }
+    .crates-grid { grid-template-columns: 1fr; grid-template-rows: 300px 300px 260px 260px; }
+    .crate-card:nth-child(2) { grid-row: auto; }
+    .crate-card:nth-child(3) { grid-column: auto; }
+    .cushions-grid { grid-template-columns: 1fr 1fr; }
+    .cushions-grid .cushion-card:last-child { display: none; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Pet<span>Xplorer</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#crates">Crates</a></li>
+    <li><a href="#cushions">Cushions</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li>
+      <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
+      <a href="#configure" class="nav-cta">Design Yours</a>
+    </li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Open menu" role="button" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="hero-badge">Queensland Made &nbsp;·&nbsp; IATA Engineered</span>
+  <h1 class="hero-headline">
+    <span class="line-sm">Pet travel,</span>
+    <span class="line-lg">beautifully</span>
+    <span class="line-sm">reimagined.</span>
+  </h1>
+  <p class="hero-sub">Tailored to their personality, premium-built for your peace of mind.</p>
+  <div class="hero-actions">
+    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
+    <a href="#configure" class="btn-primary">Design Your Crate &rarr;</a>
+    <a href="#crates" class="btn-outline">See the Collection &darr;</a>
+  </div>
+  <span class="hero-scroll-hint">Scroll to explore</span>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stat-item fade-up">
+    <span class="stat-number">2,000+</span>
+    <span class="stat-label">Colour Combinations</span>
+  </div>
+  <div class="stat-item fade-up fade-up-delay-1">
+    <span class="stat-number">13+</span>
+    <span class="stat-label">Years Experience</span>
+  </div>
+  <div class="stat-item fade-up fade-up-delay-2">
+    <span class="stat-number">AU</span>
+    <span class="stat-label">Ships Across Australia</span>
+  </div>
+  <div class="stat-item fade-up fade-up-delay-3">
+    <span class="stat-number">IATA</span>
+    <span class="stat-label">Approved</span>
+  </div>
+</section>
+
+<!-- CRATES -->
+<section id="crates">
+  <div class="crates-header">
+    <div class="fade-up">
+      <p class="section-tag">The Collection</p>
+      <h2 class="section-title">Built for<br><em>every journey.</em></h2>
+    </div>
+    <p class="section-body fade-up fade-up-delay-1">Each crate features a colour-customisable base, top, and trim. Mix and match to create something completely unique to your pet.</p>
+  </div>
+
+  <div class="crates-grid">
+    <div class="crate-card fade-up">
+      <!-- REPLACE SRC WITH YOUR OWN HOSTED IMAGE -->
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBQ14NrzqcfPNBvuT8er3an-bVkMh6rtI1Qp1HuSIU29n3iNKGNspZF93D4gh5XJAXY6WvoMkggu0rhvwlcB6OqLpJr7sNlHz9JaXHx_DbaVT9VopQPKOpL01lzrGxgmPnBwIdguJz44pVooowoYho_OlBbvvH7z8x-6gIgM8dK4wmAbMRhok-q7ikdUnZQ1z-8OKhPBtdKS-bWfpOi1V7Is5w7VvWGv9_D=w1280" alt="PetXplorer travel crate">
+      <span class="crate-label">Signature Series</span>
+    </div>
+    <div class="crate-card fade-up fade-up-delay-1">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBUWyLKRsc0ILBB7dt5xBKH7B2xcpevLe95BbmxXE6TSiTn7NE9vcVn0oo6Ef3OGBq_WYY83JCsAyLjYTi9B_-XU7FkDyUnH7wgxun5n83TUYhEq9m_ZaB6ZDzjBIa1LebDrw3VGHkDs2zYZnEmPXZTnzp5x7PPQwKhz0fuJ568-jNxiLOVE9glF2qu7v6O1o0L1oZb1sjf1Ui_AlURN9upf3OjYP4z6L4lNZU=w1280" alt="PetXplorer travel crate">
+      <span class="crate-label">Colour Your Way</span>
+    </div>
+    <div class="crate-card fade-up fade-up-delay-2">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBHIIzQVJhGCbVIhPveoDHrY4f403qbbK1u5Rf-2drq0T2AaqkdkYbvDwR_i3ON8TBwEnPqQx3DM7RjwszDcOfGVkHaROUWlZxj_b8aMUS55NxpnQgvWP9X-RyFzLiH1B1RT_m9DkpobzSYEk1VcEYND1IM7PU0rmTiI4Th8HB4IQrY1saOVj5B7q343AkMkyZHldH_swmJ-1dR5r3PpgjVMeJHt4Tztl_b=w1280" alt="PetXplorer travel crate">
+      <span class="crate-label">Premium Build</span>
+    </div>
+    <div class="crate-card fade-up fade-up-delay-3">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUASHKFlEzRvtFSRrn3MgG9Gt4MuwqSsIfL5pSuvFoCOCXAPZh-qw4pK8ftTLOrS3C_6W70rE4TUncQBpCicvByTCYA5bn7YDA6DM-3a7u-TGsq0y535yL64xr7k0V0yh0m0FJ8tXCutPY9-zUudGmmeuH_mt-gaV4NSANJCzGjs882Seoyv3OrVfQGhTCWttTcJ81P=w1280" alt="PetXplorer travel crate">
+      <span class="crate-label">Adventure Ready</span>
+    </div>
+  </div>
+
+  <div class="crates-footer fade-up">
+    <p>Over 2,000 colour combinations — every crate is one of a kind.</p>
+    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
+    <a href="#configure" class="btn-primary">Find Your Crate &rarr;</a>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section id="cta-band">
+  <div class="cta-band-inner fade-up">
+    <p>Ready to design yours?</p>
+    <h2>The perfect crate<br>for your <em>perfect companion.</em></h2>
+    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
+    <a href="#configure" class="btn-primary">Open the Configurator &rarr;</a>
+  </div>
+</section>
+
+<!-- CUSHIONS -->
+<section id="cushions">
+  <div class="cushions-header fade-up">
+    <p class="section-tag">Comfort Cushions</p>
+    <h2 class="section-title">Softness that<br><em>travels well.</em></h2>
+    <p class="section-body" style="margin-top:1rem;">Handcrafted cushion inserts in beautiful prints, designed to keep your pet comfortable on every journey.</p>
+  </div>
+
+  <div class="cushions-grid">
+    <div class="cushion-card fade-up">
+      <!-- REPLACE SRC WITH YOUR OWN HOSTED IMAGE -->
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDkzpEejlE4MQswHCLqG-3JfN1s7FCAcVtLHyvIa7bs4mFOXYbWzytkD7QjhcPfM7EPZ5SoPY35banSgzdUC3_7QLxBbb7yrt7RrwzT_UQmrUXpX2JN4aHL7M9w74TbsyQydrSUpNd2BCQxCyOacSDmhNqxJ9wRth-zJGeS4OW7SS5T1s7ZQ-rywGSEiIYz4315LsO7oKX4hoL4ReWqK2svVY0W3_12v3mW=w1280" alt="Comfort cushion">
+    </div>
+    <div class="cushion-card fade-up fade-up-delay-1">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC9B5CJimeUZXgq_XPRY1uxT4yQ2IGf6vJDTqa47Kn_amfskuaX5xXQ56fTWKggt1iRVxWLOqyxmJF4kQflFbbZwE1h17kJdm4M8YcxpYapy_QzT9dTzjtvPCY8EYaCaO1Iy8k2rIH2T3q_Tn7zzCpppP-zf25-i1oVU5H5IoGOFxmZOEJkuQm9LlEC1nSXMM_1jz6nKt928d4oJSu5bmlavWU6pbz_5Z6_=w1280" alt="Comfort cushion">
+    </div>
+    <div class="cushion-card fade-up fade-up-delay-2">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC61kRFF8bvxc6OBoTyhcEGzGgdhtfAqESbSEQuU4RfmH4_Eb21WXKWnwa1Gyh8_Uu5AfYfZg1aOTQ4EpgDiDv3wS5pUYekWwSTaP5NnXu15jalX8PI4I7HsCT5_tutDrM4ry9IIyy7WWqAmxy4OLyIE1mFdi4gt2Ysp_iKaQwgWT7_BeRdS7bWZD2mEz3zmfuc9HbMX13Pp1urC9G_Nz9HJ4j86X-WKBOvrhw=w1280" alt="Comfort cushion">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-up">
+    <p class="section-tag" style="color:var(--gold);">About PetXplorer</p>
+    <h2 class="section-title light">Built on<br><em>real expertise.</em></h2>
+    <ul class="about-list">
+      <li>IATA-compliant engineering for safe air and road travel</li>
+      <li>Queensland-made with premium materials built to last</li>
+      <li>Over 13 years in the pet travel industry</li>
+      <li>Ships across Australia with tracked delivery</li>
+    </ul>
+  </div>
+  <div class="about-right fade-up fade-up-delay-1">
+    <p class="about-quote">"Every pet deserves to travel in comfort, safety, and<em> style.</em>"</p>
+    <p class="section-body light">We design and build crates that meet the highest IATA standards, without ever compromising on the details that make your pet feel at home — wherever the journey takes you.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <a href="#hero" class="footer-logo">Pet<span>Xplorer</span></a>
+  <ul class="footer-links">
+    <li><a href="#crates">Crates</a></li>
+    <li><a href="#cushions">Cushions</a></li>
+    <li><a href="#about">About</a></li>
+    <!-- REPLACE href WITH YOUR NETLIFY CONFIGURATOR URL -->
+    <li><a href="#configure">Configure</a></li>
+  </ul>
+  <p class="footer-contact">
+    Get in touch &nbsp;
+    <!-- REPLACE WITH AMY'S ACTUAL EMAIL -->
+    <a href="mailto:hello@petxplorer.com.au">hello@petxplorer.com.au</a>
+  </p>
+</footer>
+
+<script>
+  // Nav scroll behaviour
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  hamburger.addEventListener('keydown', e => {
+    if (e.key === 'Enter') navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
