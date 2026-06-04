@@ -103,7 +103,7 @@
     justify-content: center;
     padding: 120px 5% 80px;
     background: url('mainheader-grape.jpg') center/cover no-repeat;
-    background-attachment: fixed;
+    background-position: center 50%;
   }
 
 .hero-badge {
@@ -694,11 +694,19 @@
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
   });
+
+  window.addEventListener('scroll', () => {
+    const hero = document.getElementById('hero');
+    const scrolled = window.scrollY;
+    hero.style.backgroundPositionY = `calc(50% + ${scrolled * 0.4}px)`;
+  });
+
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
   hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
   hamburger.addEventListener('keydown', e => { if (e.key === 'Enter') navLinks.classList.toggle('open'); });
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
