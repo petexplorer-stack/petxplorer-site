@@ -1,0 +1,2256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetXplorer - Bespoke Pet Travel Crates</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,300&display=swap" rel="stylesheet">
+  <script type='text/javascript' src='https://api.netlify.com/49Lpj76fC2uf097TdEzlG0uKNBpgaHTPQF_t6nRtQmiz0d8VG5Ji6DPEPdPw0-aaian_nK8-1lHO2PCmdKxfZojDrqweXGN-yU05oxKMW2RdFsNTxEcOpz2Fur3ikpQHmszU6qeP4edr1JL4_s5ZR0EJMjflPNtSDJmZ4tFqYEf6tLuLHa-GbW-FhT4pqxCFf3qXeYjvbINwnyg4E86tGSVJZ1YStPDrdeDEnwCJUy9FwpiJ5rnATnZL_PtkzYcH0uaYpADhLHYHgtyHYhD_NHtLFqzu048bj1NckffpmpHTlBJVKX-ZRwwE6DDnWDU50VFEqDxXu-nTZPv-lkcUnyug39IF5F0WQNGJF5weF8K2A1BbVUk6Ul2vqrwfs4II6fc9KTgUR6VErTrMwIyY5ZvFMEo0EBVe4hcLWSgH3PliEwpD8Yv77PWumCqsQAO5GmiGQhFyLJbriertwiZRUnCi3-sIS9cnG845bYENB7ddDiYeMi6fkodXRue01Fu4_HlB7NSN822xe5847Z_4'></script><script src="https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.9/js/iframeResizer.contentWindow.min.js"></script>
+  <style>
+    :root {
+      --pink: #e8007a;
+      --pink-light: #fff0f7;
+      --pink-glow: rgba(232,0,122,0.10);
+      --charcoal: #1a1a1a;
+      --mid: #555;
+      --border: #e5e1dc;
+      --bg: #f9f8f6;
+      --white: #ffffff;
+      --radius-sm: 14px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--charcoal); overflow-x: clip; }
+
+    /* ── PANELS ── */
+    .panel { display: none; width: 100%; max-width: 520px; margin: 0 auto; padding: 40px 20px 60px; }
+    .panel.active { display: block; }
+    #p1.panel, #p2.panel, #p4.panel, #p6.panel, #p7.panel, #p8.panel, #p9.panel { max-width: 800px; }
+
+    /* ── CARD — simple block flow, natural height always ── */
+    .card-ui {
+      background: var(--white);
+      padding: 48px 44px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.05);
+      position: relative;
+      display: block;
+    }
+
+    #p1 .card-ui { padding: 80px 60px; }
+    #p1 .page-title { font-size: 42px; margin-bottom: 16px; }
+    #p1 .page-sub { font-size: 18px; margin-bottom: 48px; }
+    #p1 .choice-card { padding: 32px; gap: 24px; }
+    #p1 .choice-icon { width: 56px; height: 56px; }
+    #p1 .choice-icon svg { width: 28px; height: 28px; }
+    #p1 .choice-text h3 { font-size: 18px; margin-bottom: 6px; }
+    #p1 .choice-text p { font-size: 14.5px; }
+
+    /* ── STICKY HEADER — sticks to top of the card's scroll context ── */
+    .sticky-header {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      padding-bottom: 20px;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 30px;
+      margin-left: -44px;
+      margin-right: -44px;
+      padding-left: 44px;
+      padding-right: 44px;
+    }
+
+    /* ── SCROLL AREA ── */
+    .scroll-area {
+      max-height: 42vh;
+      overflow-y: auto;
+      padding-right: 10px;
+      margin-right: -10px;
+    }
+    .scroll-area::-webkit-scrollbar { width: 6px; }
+    .scroll-area::-webkit-scrollbar-track { background: var(--bg); border-radius: 10px; }
+    .scroll-area::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+
+    .card-ui .btn-row { margin-top: 20px; }
+
+    /* ── TYPOGRAPHY ── */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--pink); font-weight: 700; letter-spacing: 0.14em;
+      font-size: 10.5px; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .eyebrow svg { flex-shrink: 0; }
+    .page-title { font-size: 28px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.025em; line-height: 1.2; }
+    .page-sub { color: var(--mid); font-size: 14.5px; margin-bottom: 30px; line-height: 1.6; font-weight: 400; }
+    .centered-header { text-align: center; }
+    .centered-header .eyebrow { justify-content: center; }
+
+    /* ── CHOICE CARDS ── */
+    .choice-grid { display: grid; gap: 12px; }
+    .choice-grid.two-col { grid-template-columns: 1fr 1fr; }
+    .choice-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s, transform .18s;
+      text-align: left;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .choice-card:hover { border-color: var(--pink); box-shadow: 0 0 0 4px var(--pink-glow); transform: translateY(-2px); }
+    .choice-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--pink-light); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .choice-icon svg { color: var(--pink); }
+    .choice-text h3 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+    .choice-text p  { font-size: 13px; color: var(--mid); line-height: 1.4; }
+
+    /* ── EXTRA ACCORDIONS ── */
+    .extra-section { border: 1.5px solid var(--border); border-radius: var(--radius-md); margin-bottom: 12px; background: #fff; }
+    .extra-header {
+      padding: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; background: #fff; transition: background 0.2s;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .extra-header:hover { background: var(--bg); }
+    .extra-header h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+    .extra-content { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); background: #fff; border-radius: 0 0 var(--radius-md) var(--radius-md); }
+    .extra-section.active .extra-content { display: block; }
+    .extra-section.active .extra-header {
+      position: sticky; top: 0; z-index: 5;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .chevron { transition: transform 0.3s; }
+    .extra-section.active .chevron { transform: rotate(180deg); }
+
+    /* ── BUTTONS ── */
+    .btn-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn-main {
+      background: var(--pink); color: #fff; border: none;
+      padding: 16px 32px; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 13.5px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      cursor: pointer; flex: 1; transition: opacity .18s, transform .15s;
+    }
+    .btn-main:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-back {
+      background: var(--white); border: 1.5px solid var(--border); color: var(--mid);
+      padding: 16px 22px; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 13.5px; font-weight: 700;
+      cursor: pointer; transition: border-color .18s;
+    }
+    .btn-back:hover { border-color: #bbb; }
+    .btn-ghost {
+      background: none; border: none; color: #aaa; font-family: inherit;
+      font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 16px;
+      display: block; width: 100%; text-align: center; padding: 4px;
+    }
+    .btn-ghost:hover { color: var(--mid); }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 5000; align-items: flex-start; justify-content: center; padding: 60px 20px 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal-card { background: #fff; border-radius: var(--radius-lg); padding: 32px; max-width: 440px; width: 100%; text-align: center; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .modal-card h2 { font-size: 20px; margin-bottom: 12px; font-weight: 800; }
+    .modal-card p { font-size: 14px; color: var(--mid); line-height: 1.5; margin-bottom: 24px; }
+
+    /* ── FORM FIELDS ── */
+    .field {
+      width: 100%; padding: 14px 16px;
+      border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+      margin-bottom: 12px; font-family: inherit; font-size: 14px;
+      background: var(--bg); color: var(--charcoal);
+      transition: border-color .2s;
+    }
+    .field:focus { outline: none; border-color: var(--pink); background: var(--white); }
+    .field.error { border-color: #ff007f; }
+    textarea.field { min-height: 90px; resize: vertical; }
+
+    /* ── CART / SUMMARY ── */
+    .cart-item {
+      background: var(--bg); border-radius: var(--radius-sm);
+      padding: 16px 18px; margin-bottom: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .summary-row { display: flex; align-items: center; gap: 16px; flex: 1; }
+    .summary-blob { display: flex; flex-direction: column; gap: 2px; width: 32px; flex-shrink: 0; }
+    .layer-pip { width: 100%; height: 8px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); }
+    .cart-item-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; color: var(--pink); text-transform: uppercase; margin-bottom: 4px; }
+    .cart-item strong { font-size: 13.5px; }
+    .cart-item span   { font-size: 12px; color: var(--mid); }
+    .cart-actions { display: flex; gap: 12px; align-items: center; }
+    .cart-btn { background: none; border: none; font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px; }
+    .cart-btn.edit { color: var(--pink); }
+
+    /* ── BUILDER VIEW — desktop: fixed split-screen ── */
+    #builder-view {
+      display: none; width: 100vw; height: 100vh;
+      flex-direction: row; position: fixed; inset: 0;
+      z-index: 3000; background: var(--bg);
+    }
+    .viewport-left {
+      flex: 1.4; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: 5%; height: 100vh; position: relative;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .viewport-tag {
+      position: absolute; top: 36px; left: 36px;
+      color: var(--pink); font-weight: 800; font-size: 10.5px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .render-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; align-items: center; }
+    #crateCanvas { width: 100%; height: auto; filter: drop-shadow(0 36px 48px rgba(0,0,0,0.11)); }
+    .render-blobs { display: flex; gap: 10px; margin-top: 26px; }
+    .render-blob { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: background .3s; }
+
+    .controls-right {
+      flex: 1; background: var(--white);
+      overflow-y: auto;
+      padding: 56px 40px 40px;
+      height: 100vh;
+    }
+    .controls-right .page-title { font-size: 24px; }
+    .controls-right .page-sub { font-size: 14px; }
+
+    #colour-scroll-area {
+      max-height: 44vh;
+      overflow-y: auto;
+      margin: 0 -40px;
+      padding: 0 40px;
+    }
+    #colour-scroll-area::-webkit-scrollbar { width: 6px; }
+    #colour-scroll-area::-webkit-scrollbar-track { background: var(--bg); border-radius: 10px; }
+    #colour-scroll-area::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+
+    .action-bar {
+      background: var(--bg); border-radius: var(--radius-md);
+      padding: 22px; margin-top: 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .qty-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .qty-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mid); }
+    .qty-ctrl { display: flex; align-items: center; gap: 10px; }
+    .qty-btn {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1.5px solid var(--border); background: var(--white);
+      font-weight: 800; font-size: 14px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .18s;
+    }
+    .qty-btn:hover { border-color: var(--pink); }
+    .qty-val-num { font-weight: 800; font-size: 14px; min-width: 15px; text-align: center; }
+
+    /* ── FAVOURITES ── */
+    .fav-card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 18px 20px;
+      cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .18s;
+      margin-bottom: 10px; display: flex; align-items: center; gap: 14px;
+    }
+    .fav-card:hover { border-color: var(--pink); box-shadow: 0 0 0 4px var(--pink-glow); transform: translateY(-2px); }
+    .fav-card.selected { border-color: var(--pink); background: var(--pink-light); box-shadow: 0 0 0 4px var(--pink-glow); }
+    .fav-dots { display: flex; gap: 5px; }
+    .fav-dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); }
+    .fav-name { font-weight: 700; font-size: 14px; }
+
+    /* ── ERROR MESSAGES ── */
+    .err-msg-hotpink { color: #ff007f; font-size: 11px; font-weight: 700; margin-top: 4px; }
+    .err-msg { color: #ff007f; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+    .card-ui--success { padding: 100px 60px; }
+
+    /* ── COLOUR PICKER ── */
+    .colour-accordion { border: 1.5px solid var(--border); border-radius: var(--radius-md); margin-bottom: 12px; }
+    .cat-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px; background: var(--white);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--mid); }
+    .blob-mini { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; transition: background .3s; }
+    .cat-active-colour { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 11px; font-weight: 700; color: var(--pink); }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+      gap: 8px; padding: 14px;
+    }
+    .swatch {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 8px 6px; cursor: pointer; text-align: center;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    .swatch:hover { border-color: var(--pink); }
+    .swatch.active { border-color: var(--pink); background: var(--pink-light); box-shadow: 0 0 0 3px var(--pink-glow); }
+    .swatch-box { height: 32px; border-radius: 6px; margin-bottom: 4px; }
+    .swatch-name { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mid); line-height: 1.2; }
+
+    /* ── CHIP GRID ── */
+    .chip-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 16px 0; align-items: stretch; }
+    .colour-chip {
+      display: flex; flex-direction: column; align-items: center;
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); padding: 10px 8px 10px; gap: 6px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .colour-chip:hover { border-color: var(--pink); box-shadow: 0 0 0 3px var(--pink-glow); }
+    .colour-chip.chip-active { border-color: var(--pink); background: var(--pink-light); }
+    .chip-swatch { width: 100%; aspect-ratio: 1 / 1; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); object-fit: cover; display: block; }
+    .chip-name { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mid); text-align: center; line-height: 1.3; min-height: 2.6em; display: flex; align-items: center; justify-content: center; }
+    .chip-qty-ctrl { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+    .chip-qty-btn { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--white); font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .18s; line-height: 1; }
+    .chip-qty-btn:hover { border-color: var(--pink); }
+    .chip-qty-num { font-weight: 800; font-size: 13px; min-width: 14px; text-align: center; }
+    /* ── CHIP SIZE TOGGLE PILLS ── */
+    .chip-size-pills { display: flex; gap: 5px; width: 100%; margin-top: 2px; }
+    .chip-size-pill {
+      flex: 1; padding: 4px 0; border-radius: 20px;
+      border: 1.5px solid var(--border); background: var(--white);
+      font-family: inherit; font-size: 9px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid);
+      cursor: pointer; text-align: center;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .chip-size-pill:hover { border-color: var(--pink); color: var(--pink); }
+    .chip-size-pill.pill-active { border-color: var(--pink); background: var(--pink); color: #fff; }
+    .chip-size-qty-row { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-top: 4px; }
+
+    /* ── PRICING ── */
+    .price-line { font-size: 20px; font-weight: 800; color: var(--pink); text-align: right; letter-spacing: 0.01em; line-height: 1.1; }
+    .price-tag { font-size: 10px; font-weight: 700; color: var(--mid); margin-left: 6px; }
+    .running-total { font-size: 13px; font-weight: 800; color: var(--pink); margin-top: 6px; text-align: right; }
+    .grand-total-block { background: var(--pink-light); border: 1.5px solid var(--pink); border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .grand-total-block .gt-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--pink); }
+    .grand-total-block .gt-amount { font-size: 18px; font-weight: 800; color: var(--pink); }
+    .cart-item-price { font-size: 11px; font-weight: 700; color: var(--mid); margin-top: 3px; }
+    .chip-size-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px; }
+    .chip-size-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); min-width: 28px; }
+    /* legacy chip-size-row kept for non-cushion use; cushion chips now use pill toggles */
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75); z-index: 9000;
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .lightbox-img {
+      max-width: 400px; width: 100%; height: auto;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      display: block;
+    }
+    .lightbox-name {
+      color: #fff; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; text-align: center;
+    }
+    .lightbox-close {
+      position: absolute; top: -14px; right: -14px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #fff; border: none; cursor: pointer;
+      font-size: 16px; font-weight: 800; color: var(--charcoal);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .chip-swatch.zoomable { cursor: zoom-in; }
+  </style>
+
+  <!-- ══════════════════════════════════════
+       MOBILE — single scroll wrapper setup
+       ══════════════════════════════════════ -->
+  <style>
+    @media (max-width: 640px) {
+      .panel { padding: 16px 12px 60px; }
+      .card-ui {
+        padding: 24px 20px;
+        border-radius: 20px;
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      .sticky-header {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+      }
+      .scroll-area {
+        max-height: 60vh;
+        overflow-y: auto;
+        padding-right: 0;
+        margin-right: 0;
+        -webkit-overflow-scrolling: touch;
+      }
+      .extra-section.active .extra-header {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      .choice-grid.two-col { grid-template-columns: 1fr; }
+      #p1 .card-ui { padding: 32px 20px; }
+      #p1 .page-title { font-size: 26px; margin-bottom: 10px; }
+      #p1 .page-sub { font-size: 15px; margin-bottom: 28px; }
+      #p1 .choice-card { padding: 18px; gap: 14px; }
+      #p1 .choice-icon { width: 44px; height: 44px; }
+      #p1 .choice-icon svg { width: 20px; height: 20px; }
+      #p1 .choice-text h3 { font-size: 15px; }
+      #p1 .choice-text p { font-size: 13px; }
+
+      #p7 .card-ui > div[style*="grid-template-columns:1fr 1fr"],
+      #p7 .card-ui > div[style*="grid-template-columns:1.5fr"] {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      #builder-view {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+        background: var(--bg);
+      }
+      #builder-view[style*="display: flex"] {
+        display: block !important;
+      }
+
+      .viewport-left {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 100 !important;
+        width: 100% !important;
+        height: auto !important;
+        flex: none !important;
+        padding: 24px 16px 12px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border) !important;
+        background: var(--bg) !important;
+        overflow: hidden !important;
+      }
+      #crateCanvas { max-width: 80%; }
+      .render-blob { width: 16px; height: 16px; }
+      .render-blobs { margin-top: 8px; }
+      .viewport-tag { top: 10px; left: 16px; font-size: 9px; }
+
+      .controls-right {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 24px 20px 100px !important;
+        background: var(--white);
+      }
+      #colour-scroll-area {
+        overflow-y: visible !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex: none !important;
+      }
+      .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin: 16px 0 0 !important;
+        border-radius: var(--radius-md);
+      }
+      .btn-main, .btn-back { font-size: 12px; padding: 14px 16px; }
+      .swatch-grid {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-auto-flow: column;
+        grid-auto-columns: 68px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 12px 0;
+        gap: 6px;
+      }
+      .swatch-grid::-webkit-scrollbar { display: none; }
+      .swatch { width: 68px; }
+      .chip-grid { grid-template-columns: repeat(3, 1fr); align-items: start; padding-left: 4px; padding-right: 4px; }
+      .chip-swatch { width: 64px; height: 64px; aspect-ratio: unset; align-self: center; }
+      #p9 .card-ui--success { padding: 60px 24px; }
+      #p9 .page-title { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+  </symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </symbol>
+  <symbol id="ic-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1-.55 0-1-.45-1-1V17c0-2.21 1.79-4 4-4h2c2.21 0 4-1.79 4-4 0-4.97-4.03-9-9-9z"/>
+  </symbol>
+  <symbol id="ic-cushion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="7" width="20" height="10" rx="5"/><path d="M12 7v10M7 7v10M17 7v10"/>
+  </symbol>
+  <symbol id="ic-bowl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 11h16"/><path d="M5 11C5.09 14.92 8.17 18 12 18s6.91-3.08 7-7H5z"/><path d="M8 11V7a4 4 0 018 0v4"/>
+  </symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+  </symbol>
+  <symbol id="ic-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+  </symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+  </symbol>
+  <symbol id="ic-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/>
+  </symbol>
+  <symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </symbol>
+</svg>
+
+<!-- STEP 1 — Welcome -->
+<div id="p1" class="panel active">
+  <div class="card-ui">
+    <div class="eyebrow"><svg width="12" height="12"><use href="#ic-sparkle"/></svg> Welcome</div>
+    <h1 class="page-title">What would you like today?</h1>
+    <p class="page-sub">Let's get your order started.</p>
+    <div class="choice-grid">
+      <div class="choice-card" onclick="goToStep(2)">
+        <div class="choice-icon"><svg width="20" height="20"><use href="#ic-box"/></svg></div>
+        <div class="choice-text"><h3>Build a custom crate</h3><p>Choose your colours, size &amp; extras</p></div>
+      </div>
+      <div class="choice-card" onclick="goToStep(6)">
+        <div class="choice-icon"><svg width="20" height="20"><use href="#ic-heart"/></svg></div>
+        <div class="choice-text"><h3>Cushions &amp; Extras only</h3><p>Replacement items for existing gear</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 — Crate style -->
+<div id="p2" class="panel">
+  <div class="card-ui centered-header">
+    <div class="eyebrow"><svg width="12" height="12"><use href="#ic-box"/></svg> Crate style</div>
+    <h1 class="page-title">How would you like to choose?</h1>
+    <p class="page-sub">Pick from our favourites or design something entirely your own.</p>
+    <div class="choice-grid two-col">
+      <div class="choice-card" onclick="openBuilder('favs')">
+        <div class="choice-icon"><svg width="20" height="20"><use href="#ic-star"/></svg></div>
+        <div class="choice-text"><h3>Our favourites</h3><p>Curated combos, ready to go.</p></div>
+      </div>
+      <div class="choice-card" onclick="openBuilder('custom')">
+        <div class="choice-icon"><svg width="20" height="20"><use href="#ic-palette"/></svg></div>
+        <div class="choice-text"><h3>Build my own</h3><p>Make it completely yours.</p></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" style="flex:1;" onclick="goToStep(1)">Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- BUILDER VIEW -->
+<div id="builder-view">
+  <div class="viewport-left">
+    <div class="viewport-tag" id="builder-tag">BUILD YOUR OWN</div>
+    <div class="render-container">
+      <canvas id="crateCanvas" width="1000" height="800"></canvas>
+      <div class="render-blobs">
+        <div id="big-blob-top"  class="render-blob"></div>
+        <div id="big-blob-trim" class="render-blob"></div>
+        <div id="big-blob-base" class="render-blob"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls-right">
+    <div class="eyebrow" id="builder-eyebrow"><svg width="12" height="12"><use href="#ic-palette"/></svg> Custom colours</div>
+    <h1 class="page-title">Choose your colours</h1>
+    <p class="page-sub">Select a colour for each part. The preview updates live.</p>
+
+    <div id="colour-scroll-area">
+      <div id="swatch-mount"></div>
+      <div id="favs-mount" style="display:none; margin-top:16px;"></div>
+    </div>
+
+    <div class="action-bar">
+      <div class="qty-wrap">
+        <div class="qty-label">Qty</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="updateQty(-1)">−</button>
+          <div id="qty-val" class="qty-val-num">0</div>
+          <button class="qty-btn" onclick="updateQty(+1)">+</button>
+        </div>
+        <div id="qty-warning" class="err-msg-hotpink" style="display:none;">⚠ Please choose a quantity of 1 or more</div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex:1;">
+        <div id="builder-price" class="price-line" style="display:none;"></div>
+        <div style="display:flex; gap:8px; width:100%;">
+          <button class="btn-back" onclick="goToStep(2)">Back</button>
+          <button class="btn-main" onclick="saveCrate()">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4 — Extras (Crate Matched) -->
+<div id="p4" class="panel">
+  <div class="card-ui">
+    <div class="sticky-header">
+      <div class="eyebrow"><svg width="12" height="12"><use href="#ic-heart"/></svg> Extras</div>
+      <h1 class="page-title" style="font-size:22px; margin-bottom:12px;">Accessorize your crate</h1>
+      <div style="background:var(--bg); border-radius:var(--radius-sm); padding:12px 16px; display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+        <div id="p4-blob-ref" class="summary-blob"></div>
+        <div style="font-size:13px; line-height:1.4; flex:1;">
+          <div style="font-weight:800; color:var(--charcoal);" id="p4-color-ref">Loading choice...</div>
+          <div style="color:var(--mid); font-size:11px;">Matching <span id="p4-crate-qty">0</span> crates</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:3px; font-size:11px; font-weight:700;">
+          <span style="color:var(--mid);">Cushions: <span id="p4-count-cushion-hdr" style="color:var(--pink);">0</span></span>
+          <span style="color:var(--mid);">Bowls: <span id="p4-count-bowl-hdr" style="color:var(--pink);">0</span></span>
+          <div id="p4-running-total" class="running-total"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-area">
+      <div class="extra-section" id="sec-cushion">
+        <div class="extra-header" onclick="toggleAccordion('sec-cushion')">
+          <h3><svg width="20" height="20" color="var(--pink)"><use href="#ic-cushion"/></svg> Comfort Cushions <span id="count-Cushion" style="color:#ff007f; margin-left:8px;"></span></h3>
+          <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+            <div style="text-align:right; line-height:1.7; font-size:11px; font-weight:700; color:var(--mid);">
+              <div>L52 — Standard &nbsp;$36</div>
+              <div>L62 — 63×33cm &nbsp;$59</div>
+            </div>
+            <svg class="chevron" width="20" height="20"><use href="#ic-chevron"/></svg>
+          </div>
+        </div>
+        <div class="extra-content">
+          <div class="chip-grid">
+            <div class="colour-chip" id="chip-Cushion-L52-Midnight Forest">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031754/Midnight_Forest_xieu3n.png" alt="Midnight Forest">
+              <div class="chip-name">Midnight Forest</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Midnight Forest','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Midnight Forest','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Midnight Forest" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Midnight Forest',-1)">−</button>
+                <div id="qty-Cushion-L52-Midnight Forest" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Midnight Forest',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Midnight Forest" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Midnight Forest',-1)">−</button>
+                <div id="qty-Cushion-L62-Midnight Forest" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Midnight Forest',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Neon Geo Pink">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Neon_Geo_Pink_anerrx.png" alt="Neon Geo Pink">
+              <div class="chip-name">Neon Geo Pink</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Neon Geo Pink','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Neon Geo Pink','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Neon Geo Pink" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Neon Geo Pink',-1)">−</button>
+                <div id="qty-Cushion-L52-Neon Geo Pink" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Neon Geo Pink',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Neon Geo Pink" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Neon Geo Pink',-1)">−</button>
+                <div id="qty-Cushion-L62-Neon Geo Pink" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Neon Geo Pink',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Hot Air Balloons">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031756/Hot_Air_Balloons_mcevm3.png" alt="Hot Air Balloons">
+              <div class="chip-name">Hot Air Balloons</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Hot Air Balloons','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Hot Air Balloons','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Hot Air Balloons" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Hot Air Balloons',-1)">−</button>
+                <div id="qty-Cushion-L52-Hot Air Balloons" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Hot Air Balloons',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Hot Air Balloons" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Hot Air Balloons',-1)">−</button>
+                <div id="qty-Cushion-L62-Hot Air Balloons" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Hot Air Balloons',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Indigo Paisley">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031754/Indigo_Paisley_ecg13l.png" alt="Indigo Paisley">
+              <div class="chip-name">Indigo Paisley</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Indigo Paisley','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Indigo Paisley','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Indigo Paisley" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Indigo Paisley',-1)">−</button>
+                <div id="qty-Cushion-L52-Indigo Paisley" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Indigo Paisley',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Indigo Paisley" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Indigo Paisley',-1)">−</button>
+                <div id="qty-Cushion-L62-Indigo Paisley" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Indigo Paisley',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Gothic Sketch Cats">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031671/Gothic_Sketch_Cats_qbe40f.png" alt="Gothic Sketch Cats">
+              <div class="chip-name">Gothic Sketch Cats</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Gothic Sketch Cats','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Gothic Sketch Cats','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Gothic Sketch Cats" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Gothic Sketch Cats',-1)">−</button>
+                <div id="qty-Cushion-L52-Gothic Sketch Cats" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Gothic Sketch Cats',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Gothic Sketch Cats" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Gothic Sketch Cats',-1)">−</button>
+                <div id="qty-Cushion-L62-Gothic Sketch Cats" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Gothic Sketch Cats',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Golden Baroque">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031657/Golden_Baroque_r3eugf.png" alt="Golden Baroque">
+              <div class="chip-name">Golden Baroque</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Golden Baroque','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Golden Baroque','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Golden Baroque" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Golden Baroque',-1)">−</button>
+                <div id="qty-Cushion-L52-Golden Baroque" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Golden Baroque',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Golden Baroque" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Golden Baroque',-1)">−</button>
+                <div id="qty-Cushion-L62-Golden Baroque" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Golden Baroque',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Electric Moss">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031642/Electric_Moss_wm0nke.png" alt="Electric Moss">
+              <div class="chip-name">Electric Moss</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Electric Moss','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Electric Moss','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Electric Moss" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Electric Moss',-1)">−</button>
+                <div id="qty-Cushion-L52-Electric Moss" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Electric Moss',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Electric Moss" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Electric Moss',-1)">−</button>
+                <div id="qty-Cushion-L62-Electric Moss" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Electric Moss',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Blue Camo Splatter">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Blue_Camo_Splatter_qlzf9v.png" alt="Blue Camo Splatter">
+              <div class="chip-name">Blue Camo Splatter</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Blue Camo Splatter','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Blue Camo Splatter','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Blue Camo Splatter" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Blue Camo Splatter',-1)">−</button>
+                <div id="qty-Cushion-L52-Blue Camo Splatter" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Blue Camo Splatter',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Blue Camo Splatter" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Blue Camo Splatter',-1)">−</button>
+                <div id="qty-Cushion-L62-Blue Camo Splatter" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Blue Camo Splatter',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Cosmic Leopard">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031629/Cosmic_Leopard_li2gpx.png" alt="Cosmic Leopard">
+              <div class="chip-name">Cosmic Leopard</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Cosmic Leopard','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Cosmic Leopard','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Cosmic Leopard" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Cosmic Leopard',-1)">−</button>
+                <div id="qty-Cushion-L52-Cosmic Leopard" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Cosmic Leopard',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Cosmic Leopard" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Cosmic Leopard',-1)">−</button>
+                <div id="qty-Cushion-L62-Cosmic Leopard" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Cosmic Leopard',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Classic Cheetah">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Classic_Cheetah_ebe2tr.png" alt="Classic Cheetah">
+              <div class="chip-name">Classic Cheetah</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Classic Cheetah','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Classic Cheetah','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Classic Cheetah" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Classic Cheetah',-1)">−</button>
+                <div id="qty-Cushion-L52-Classic Cheetah" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Classic Cheetah',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Classic Cheetah" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Classic Cheetah',-1)">−</button>
+                <div id="qty-Cushion-L62-Classic Cheetah" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Classic Cheetah',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Charcoal Crushed Velvet">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Charcoal_Crushed_Velvet_gu0u3u.png" alt="Charcoal Crushed Velvet">
+              <div class="chip-name">Charcoal Crushed Velvet</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Charcoal Crushed Velvet','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Charcoal Crushed Velvet','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Charcoal Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Charcoal Crushed Velvet',-1)">−</button>
+                <div id="qty-Cushion-L52-Charcoal Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Charcoal Crushed Velvet',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Charcoal Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Charcoal Crushed Velvet',-1)">−</button>
+                <div id="qty-Cushion-L62-Charcoal Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Charcoal Crushed Velvet',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Shiraz Crushed Velvet">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Shiraz_Crushed_Velvet_coi2xk.png" alt="Shiraz Crushed Velvet">
+              <div class="chip-name">Shiraz Crushed Velvet</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Shiraz Crushed Velvet','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Shiraz Crushed Velvet','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Shiraz Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Shiraz Crushed Velvet',-1)">−</button>
+                <div id="qty-Cushion-L52-Shiraz Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Shiraz Crushed Velvet',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Shiraz Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Shiraz Crushed Velvet',-1)">−</button>
+                <div id="qty-Cushion-L62-Shiraz Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Shiraz Crushed Velvet',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Vintage Ornate">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Vintage_Ornate_r03zlx.png" alt="Vintage Ornate">
+              <div class="chip-name">Vintage Ornate</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Vintage Ornate','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Vintage Ornate','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Vintage Ornate" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Vintage Ornate',-1)">−</button>
+                <div id="qty-Cushion-L52-Vintage Ornate" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Vintage Ornate',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Vintage Ornate" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Vintage Ornate',-1)">−</button>
+                <div id="qty-Cushion-L62-Vintage Ornate" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Vintage Ornate',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Abstract Coral Reef">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Abstract_Coral_Reef_cbg6wa.png" alt="Abstract Coral Reef">
+              <div class="chip-name">Abstract Coral Reef</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Abstract Coral Reef','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Abstract Coral Reef','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Abstract Coral Reef" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Abstract Coral Reef',-1)">−</button>
+                <div id="qty-Cushion-L52-Abstract Coral Reef" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Abstract Coral Reef',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Abstract Coral Reef" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Abstract Coral Reef',-1)">−</button>
+                <div id="qty-Cushion-L62-Abstract Coral Reef" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Abstract Coral Reef',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Aussie Stars">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Aussie_Stars_ak5szc.png" alt="Aussie Stars">
+              <div class="chip-name">Aussie Stars</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Aussie Stars','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Aussie Stars','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Aussie Stars" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Aussie Stars',-1)">−</button>
+                <div id="qty-Cushion-L52-Aussie Stars" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Aussie Stars',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Aussie Stars" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Aussie Stars',-1)">−</button>
+                <div id="qty-Cushion-L62-Aussie Stars" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Aussie Stars',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Parachuting Kitties">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Parachuting_Kitties_fo3f0s.png" alt="Parachuting Kitties">
+              <div class="chip-name">Parachuting Kitties</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Parachuting Kitties','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Parachuting Kitties','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Parachuting Kitties" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Parachuting Kitties',-1)">−</button>
+                <div id="qty-Cushion-L52-Parachuting Kitties" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Parachuting Kitties',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Parachuting Kitties" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Parachuting Kitties',-1)">−</button>
+                <div id="qty-Cushion-L62-Parachuting Kitties" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Parachuting Kitties',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Patina Dusk">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Patina_Dusk_b9jupy.png" alt="Patina Dusk">
+              <div class="chip-name">Patina Dusk</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Patina Dusk','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Patina Dusk','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Patina Dusk" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Patina Dusk',-1)">−</button>
+                <div id="qty-Cushion-L52-Patina Dusk" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Patina Dusk',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Patina Dusk" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Patina Dusk',-1)">−</button>
+                <div id="qty-Cushion-L62-Patina Dusk" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Patina Dusk',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Neon Jungle">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Neon_Jungle_vkcqwn.png" alt="Neon Jungle">
+              <div class="chip-name">Neon Jungle</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Neon Jungle','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Neon Jungle','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Neon Jungle" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Neon Jungle',-1)">−</button>
+                <div id="qty-Cushion-L52-Neon Jungle" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Neon Jungle',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Neon Jungle" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Neon Jungle',-1)">−</button>
+                <div id="qty-Cushion-L62-Neon Jungle" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Neon Jungle',1)">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-Cushion-L52-Slate Blue Velvet">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Slate_Blue_Velvet_n8jdss.png" alt="Slate Blue Velvet">
+              <div class="chip-name">Slate Blue Velvet</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Slate Blue Velvet','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'Cushion','Slate Blue Velvet','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L52-Slate Blue Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Slate Blue Velvet',-1)">−</button>
+                <div id="qty-Cushion-L52-Slate Blue Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L52','Slate Blue Velvet',1)">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-Cushion-L62-Slate Blue Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Slate Blue Velvet',-1)">−</button>
+                <div id="qty-Cushion-L62-Slate Blue Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('Cushion-L62','Slate Blue Velvet',1)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="extra-section" id="sec-bowl">
+        <div class="extra-header" onclick="toggleAccordion('sec-bowl')">
+          <h3><svg width="20" height="20" color="var(--pink)"><use href="#ic-bowl"/></svg> Food &amp; Water Bowls <span id="count-Bowl" style="color:#ff007f; margin-left:8px;"></span></h3>
+          <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+            <div style="text-align:right; line-height:1.5; font-size:11px; font-weight:700; color:var(--mid);">
+              <div>$8 each</div>
+            </div>
+            <svg class="chevron" width="20" height="20"><use href="#ic-chevron"/></svg>
+          </div>
+        </div>
+        <div class="extra-content" id="bowl-matched-options"></div>
+      </div>
+    </div>
+
+    <button class="btn-ghost" onclick="skipExtras()">Skip — no extras for this crate</button>
+    <div class="btn-row">
+      <button class="btn-back" onclick="openBuilder('custom')">Back</button>
+      <button class="btn-main" onclick="validateExtras()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-system" class="modal-overlay">
+  <div class="modal-card">
+    <h2 id="modal-title">Wait a second...</h2>
+    <p id="modal-msg"></p>
+    <div id="modal-actions" style="display:flex; flex-direction:column; gap:10px;"></div>
+  </div>
+</div>
+
+<!-- STEP 5 — Order so far -->
+<div id="p5" class="panel">
+  <div class="card-ui">
+    <div class="eyebrow"><svg width="12" height="12"><use href="#ic-cart"/></svg> Your order so far</div>
+    <h1 class="page-title">Current cart</h1>
+    <div id="cart-list" style="margin-bottom:16px;"></div>
+    <div class="choice-card" onclick="resetLoop()" style="justify-content:center; align-items:center; gap:10px;">
+      <div class="choice-icon" style="background:var(--pink-light)"><svg width="18" height="18"><use href="#ic-plus"/></svg></div>
+      <div class="choice-text"><h3>Add another crate</h3></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goBackFromCart()">Back</button>
+      <button class="btn-main" onclick="goToStep(6)">That's all my crates</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 6 — Standalone extras -->
+<div id="p6" class="panel">
+  <div class="card-ui">
+    <div class="sticky-header">
+      <div class="eyebrow"><svg width="12" height="12"><use href="#ic-heart"/></svg> Anything else?</div>
+      <h1 class="page-title">Replacement cushions or bowls?</h1>
+      <p class="page-sub" style="margin-bottom:0;">Not linked to a specific crate — items for existing gear or spares.</p>
+    </div>
+
+    <div class="scroll-area">
+      <div class="extra-section" id="st-sec-cushion">
+        <div class="extra-header" onclick="toggleAccordion('st-sec-cushion')">
+          <h3><svg width="20" height="20" color="var(--pink)"><use href="#ic-cushion"/></svg> Extra Cushions <span id="st-count-ExtraCushion" style="color:#ff007f; margin-left:8px;"></span></h3>
+          <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+            <div style="text-align:right; line-height:1.7; font-size:11px; font-weight:700; color:var(--mid);">
+              <div>L52 — Standard &nbsp;$36</div>
+              <div>L62 — 63×33cm &nbsp;$59</div>
+            </div>
+            <svg class="chevron" width="20" height="20"><use href="#ic-chevron"/></svg>
+          </div>
+        </div>
+        <div class="extra-content">
+          <div class="chip-grid">
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Midnight Forest">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031754/Midnight_Forest_xieu3n.png" alt="Midnight Forest">
+              <div class="chip-name">Midnight Forest</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Midnight Forest','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Midnight Forest','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Midnight Forest" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Midnight Forest',-1);updateChip('ExtraCushion-L52-Midnight Forest')">−</button>
+                <div id="qty-ExtraCushion-L52-Midnight Forest" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Midnight Forest',1);updateChip('ExtraCushion-L52-Midnight Forest')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Midnight Forest" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Midnight Forest',-1);updateChip('ExtraCushion-L62-Midnight Forest')">−</button>
+                <div id="qty-ExtraCushion-L62-Midnight Forest" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Midnight Forest',1);updateChip('ExtraCushion-L62-Midnight Forest')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Neon Geo Pink">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Neon_Geo_Pink_anerrx.png" alt="Neon Geo Pink">
+              <div class="chip-name">Neon Geo Pink</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Neon Geo Pink','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Neon Geo Pink','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Neon Geo Pink" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Neon Geo Pink',-1);updateChip('ExtraCushion-L52-Neon Geo Pink')">−</button>
+                <div id="qty-ExtraCushion-L52-Neon Geo Pink" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Neon Geo Pink',1);updateChip('ExtraCushion-L52-Neon Geo Pink')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Neon Geo Pink" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Neon Geo Pink',-1);updateChip('ExtraCushion-L62-Neon Geo Pink')">−</button>
+                <div id="qty-ExtraCushion-L62-Neon Geo Pink" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Neon Geo Pink',1);updateChip('ExtraCushion-L62-Neon Geo Pink')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Hot Air Balloons">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031756/Hot_Air_Balloons_mcevm3.png" alt="Hot Air Balloons">
+              <div class="chip-name">Hot Air Balloons</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Hot Air Balloons','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Hot Air Balloons','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Hot Air Balloons" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Hot Air Balloons',-1);updateChip('ExtraCushion-L52-Hot Air Balloons')">−</button>
+                <div id="qty-ExtraCushion-L52-Hot Air Balloons" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Hot Air Balloons',1);updateChip('ExtraCushion-L52-Hot Air Balloons')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Hot Air Balloons" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Hot Air Balloons',-1);updateChip('ExtraCushion-L62-Hot Air Balloons')">−</button>
+                <div id="qty-ExtraCushion-L62-Hot Air Balloons" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Hot Air Balloons',1);updateChip('ExtraCushion-L62-Hot Air Balloons')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Indigo Paisley">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031754/Indigo_Paisley_ecg13l.png" alt="Indigo Paisley">
+              <div class="chip-name">Indigo Paisley</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Indigo Paisley','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Indigo Paisley','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Indigo Paisley" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Indigo Paisley',-1);updateChip('ExtraCushion-L52-Indigo Paisley')">−</button>
+                <div id="qty-ExtraCushion-L52-Indigo Paisley" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Indigo Paisley',1);updateChip('ExtraCushion-L52-Indigo Paisley')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Indigo Paisley" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Indigo Paisley',-1);updateChip('ExtraCushion-L62-Indigo Paisley')">−</button>
+                <div id="qty-ExtraCushion-L62-Indigo Paisley" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Indigo Paisley',1);updateChip('ExtraCushion-L62-Indigo Paisley')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Gothic Sketch Cats">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031671/Gothic_Sketch_Cats_qbe40f.png" alt="Gothic Sketch Cats">
+              <div class="chip-name">Gothic Sketch Cats</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Gothic Sketch Cats','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Gothic Sketch Cats','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Gothic Sketch Cats" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Gothic Sketch Cats',-1);updateChip('ExtraCushion-L52-Gothic Sketch Cats')">−</button>
+                <div id="qty-ExtraCushion-L52-Gothic Sketch Cats" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Gothic Sketch Cats',1);updateChip('ExtraCushion-L52-Gothic Sketch Cats')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Gothic Sketch Cats" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Gothic Sketch Cats',-1);updateChip('ExtraCushion-L62-Gothic Sketch Cats')">−</button>
+                <div id="qty-ExtraCushion-L62-Gothic Sketch Cats" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Gothic Sketch Cats',1);updateChip('ExtraCushion-L62-Gothic Sketch Cats')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Golden Baroque">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031657/Golden_Baroque_r3eugf.png" alt="Golden Baroque">
+              <div class="chip-name">Golden Baroque</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Golden Baroque','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Golden Baroque','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Golden Baroque" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Golden Baroque',-1);updateChip('ExtraCushion-L52-Golden Baroque')">−</button>
+                <div id="qty-ExtraCushion-L52-Golden Baroque" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Golden Baroque',1);updateChip('ExtraCushion-L52-Golden Baroque')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Golden Baroque" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Golden Baroque',-1);updateChip('ExtraCushion-L62-Golden Baroque')">−</button>
+                <div id="qty-ExtraCushion-L62-Golden Baroque" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Golden Baroque',1);updateChip('ExtraCushion-L62-Golden Baroque')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Electric Moss">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031642/Electric_Moss_wm0nke.png" alt="Electric Moss">
+              <div class="chip-name">Electric Moss</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Electric Moss','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Electric Moss','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Electric Moss" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Electric Moss',-1);updateChip('ExtraCushion-L52-Electric Moss')">−</button>
+                <div id="qty-ExtraCushion-L52-Electric Moss" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Electric Moss',1);updateChip('ExtraCushion-L52-Electric Moss')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Electric Moss" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Electric Moss',-1);updateChip('ExtraCushion-L62-Electric Moss')">−</button>
+                <div id="qty-ExtraCushion-L62-Electric Moss" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Electric Moss',1);updateChip('ExtraCushion-L62-Electric Moss')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Blue Camo Splatter">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Blue_Camo_Splatter_qlzf9v.png" alt="Blue Camo Splatter">
+              <div class="chip-name">Blue Camo Splatter</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Blue Camo Splatter','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Blue Camo Splatter','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Blue Camo Splatter" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Blue Camo Splatter',-1);updateChip('ExtraCushion-L52-Blue Camo Splatter')">−</button>
+                <div id="qty-ExtraCushion-L52-Blue Camo Splatter" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Blue Camo Splatter',1);updateChip('ExtraCushion-L52-Blue Camo Splatter')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Blue Camo Splatter" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Blue Camo Splatter',-1);updateChip('ExtraCushion-L62-Blue Camo Splatter')">−</button>
+                <div id="qty-ExtraCushion-L62-Blue Camo Splatter" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Blue Camo Splatter',1);updateChip('ExtraCushion-L62-Blue Camo Splatter')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Cosmic Leopard">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031629/Cosmic_Leopard_li2gpx.png" alt="Cosmic Leopard">
+              <div class="chip-name">Cosmic Leopard</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Cosmic Leopard','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Cosmic Leopard','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Cosmic Leopard" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Cosmic Leopard',-1);updateChip('ExtraCushion-L52-Cosmic Leopard')">−</button>
+                <div id="qty-ExtraCushion-L52-Cosmic Leopard" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Cosmic Leopard',1);updateChip('ExtraCushion-L52-Cosmic Leopard')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Cosmic Leopard" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Cosmic Leopard',-1);updateChip('ExtraCushion-L62-Cosmic Leopard')">−</button>
+                <div id="qty-ExtraCushion-L62-Cosmic Leopard" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Cosmic Leopard',1);updateChip('ExtraCushion-L62-Cosmic Leopard')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Classic Cheetah">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Classic_Cheetah_ebe2tr.png" alt="Classic Cheetah">
+              <div class="chip-name">Classic Cheetah</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Classic Cheetah','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Classic Cheetah','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Classic Cheetah" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Classic Cheetah',-1);updateChip('ExtraCushion-L52-Classic Cheetah')">−</button>
+                <div id="qty-ExtraCushion-L52-Classic Cheetah" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Classic Cheetah',1);updateChip('ExtraCushion-L52-Classic Cheetah')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Classic Cheetah" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Classic Cheetah',-1);updateChip('ExtraCushion-L62-Classic Cheetah')">−</button>
+                <div id="qty-ExtraCushion-L62-Classic Cheetah" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Classic Cheetah',1);updateChip('ExtraCushion-L62-Classic Cheetah')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Charcoal Crushed Velvet">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Charcoal_Crushed_Velvet_gu0u3u.png" alt="Charcoal Crushed Velvet">
+              <div class="chip-name">Charcoal Crushed Velvet</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Charcoal Crushed Velvet','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Charcoal Crushed Velvet','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Charcoal Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Charcoal Crushed Velvet',-1);updateChip('ExtraCushion-L52-Charcoal Crushed Velvet')">−</button>
+                <div id="qty-ExtraCushion-L52-Charcoal Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Charcoal Crushed Velvet',1);updateChip('ExtraCushion-L52-Charcoal Crushed Velvet')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Charcoal Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Charcoal Crushed Velvet',-1);updateChip('ExtraCushion-L62-Charcoal Crushed Velvet')">−</button>
+                <div id="qty-ExtraCushion-L62-Charcoal Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Charcoal Crushed Velvet',1);updateChip('ExtraCushion-L62-Charcoal Crushed Velvet')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Shiraz Crushed Velvet">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Shiraz_Crushed_Velvet_coi2xk.png" alt="Shiraz Crushed Velvet">
+              <div class="chip-name">Shiraz Crushed Velvet</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Shiraz Crushed Velvet','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Shiraz Crushed Velvet','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Shiraz Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Shiraz Crushed Velvet',-1);updateChip('ExtraCushion-L52-Shiraz Crushed Velvet')">−</button>
+                <div id="qty-ExtraCushion-L52-Shiraz Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Shiraz Crushed Velvet',1);updateChip('ExtraCushion-L52-Shiraz Crushed Velvet')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Shiraz Crushed Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Shiraz Crushed Velvet',-1);updateChip('ExtraCushion-L62-Shiraz Crushed Velvet')">−</button>
+                <div id="qty-ExtraCushion-L62-Shiraz Crushed Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Shiraz Crushed Velvet',1);updateChip('ExtraCushion-L62-Shiraz Crushed Velvet')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Vintage Ornate">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Vintage_Ornate_r03zlx.png" alt="Vintage Ornate">
+              <div class="chip-name">Vintage Ornate</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Vintage Ornate','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Vintage Ornate','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Vintage Ornate" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Vintage Ornate',-1);updateChip('ExtraCushion-L52-Vintage Ornate')">−</button>
+                <div id="qty-ExtraCushion-L52-Vintage Ornate" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Vintage Ornate',1);updateChip('ExtraCushion-L52-Vintage Ornate')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Vintage Ornate" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Vintage Ornate',-1);updateChip('ExtraCushion-L62-Vintage Ornate')">−</button>
+                <div id="qty-ExtraCushion-L62-Vintage Ornate" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Vintage Ornate',1);updateChip('ExtraCushion-L62-Vintage Ornate')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Abstract Coral Reef">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Abstract_Coral_Reef_cbg6wa.png" alt="Abstract Coral Reef">
+              <div class="chip-name">Abstract Coral Reef</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Abstract Coral Reef','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Abstract Coral Reef','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Abstract Coral Reef" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Abstract Coral Reef',-1);updateChip('ExtraCushion-L52-Abstract Coral Reef')">−</button>
+                <div id="qty-ExtraCushion-L52-Abstract Coral Reef" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Abstract Coral Reef',1);updateChip('ExtraCushion-L52-Abstract Coral Reef')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Abstract Coral Reef" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Abstract Coral Reef',-1);updateChip('ExtraCushion-L62-Abstract Coral Reef')">−</button>
+                <div id="qty-ExtraCushion-L62-Abstract Coral Reef" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Abstract Coral Reef',1);updateChip('ExtraCushion-L62-Abstract Coral Reef')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Aussie Stars">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031618/Aussie_Stars_ak5szc.png" alt="Aussie Stars">
+              <div class="chip-name">Aussie Stars</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Aussie Stars','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Aussie Stars','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Aussie Stars" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Aussie Stars',-1);updateChip('ExtraCushion-L52-Aussie Stars')">−</button>
+                <div id="qty-ExtraCushion-L52-Aussie Stars" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Aussie Stars',1);updateChip('ExtraCushion-L52-Aussie Stars')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Aussie Stars" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Aussie Stars',-1);updateChip('ExtraCushion-L62-Aussie Stars')">−</button>
+                <div id="qty-ExtraCushion-L62-Aussie Stars" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Aussie Stars',1);updateChip('ExtraCushion-L62-Aussie Stars')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Parachuting Kitties">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Parachuting_Kitties_fo3f0s.png" alt="Parachuting Kitties">
+              <div class="chip-name">Parachuting Kitties</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Parachuting Kitties','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Parachuting Kitties','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Parachuting Kitties" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Parachuting Kitties',-1);updateChip('ExtraCushion-L52-Parachuting Kitties')">−</button>
+                <div id="qty-ExtraCushion-L52-Parachuting Kitties" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Parachuting Kitties',1);updateChip('ExtraCushion-L52-Parachuting Kitties')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Parachuting Kitties" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Parachuting Kitties',-1);updateChip('ExtraCushion-L62-Parachuting Kitties')">−</button>
+                <div id="qty-ExtraCushion-L62-Parachuting Kitties" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Parachuting Kitties',1);updateChip('ExtraCushion-L62-Parachuting Kitties')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Patina Dusk">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Patina_Dusk_b9jupy.png" alt="Patina Dusk">
+              <div class="chip-name">Patina Dusk</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Patina Dusk','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Patina Dusk','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Patina Dusk" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Patina Dusk',-1);updateChip('ExtraCushion-L52-Patina Dusk')">−</button>
+                <div id="qty-ExtraCushion-L52-Patina Dusk" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Patina Dusk',1);updateChip('ExtraCushion-L52-Patina Dusk')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Patina Dusk" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Patina Dusk',-1);updateChip('ExtraCushion-L62-Patina Dusk')">−</button>
+                <div id="qty-ExtraCushion-L62-Patina Dusk" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Patina Dusk',1);updateChip('ExtraCushion-L62-Patina Dusk')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Neon Jungle">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Neon_Jungle_vkcqwn.png" alt="Neon Jungle">
+              <div class="chip-name">Neon Jungle</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Neon Jungle','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Neon Jungle','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Neon Jungle" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Neon Jungle',-1);updateChip('ExtraCushion-L52-Neon Jungle')">−</button>
+                <div id="qty-ExtraCushion-L52-Neon Jungle" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Neon Jungle',1);updateChip('ExtraCushion-L52-Neon Jungle')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Neon Jungle" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Neon Jungle',-1);updateChip('ExtraCushion-L62-Neon Jungle')">−</button>
+                <div id="qty-ExtraCushion-L62-Neon Jungle" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Neon Jungle',1);updateChip('ExtraCushion-L62-Neon Jungle')">+</button>
+              </div>
+            </div>
+            <div class="colour-chip" id="chip-ExtraCushion-L52-Slate Blue Velvet">
+              <img class="chip-swatch" src="https://res.cloudinary.com/detjogvqn/image/upload/v1780031617/Slate_Blue_Velvet_n8jdss.png" alt="Slate Blue Velvet">
+              <div class="chip-name">Slate Blue Velvet</div>
+              <div class="chip-size-pills">
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Slate Blue Velvet','L52')" data-size="L52">L52</button>
+                <button class="chip-size-pill" onclick="toggleCushionPill(this,'ExtraCushion','Slate Blue Velvet','L62')" data-size="L62">L62</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L52-Slate Blue Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Slate Blue Velvet',-1);updateChip('ExtraCushion-L52-Slate Blue Velvet')">−</button>
+                <div id="qty-ExtraCushion-L52-Slate Blue Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L52','Slate Blue Velvet',1);updateChip('ExtraCushion-L52-Slate Blue Velvet')">+</button>
+              </div>
+              <div class="chip-size-qty-row" id="qrow-ExtraCushion-L62-Slate Blue Velvet" style="display:none;">
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Slate Blue Velvet',-1);updateChip('ExtraCushion-L62-Slate Blue Velvet')">−</button>
+                <div id="qty-ExtraCushion-L62-Slate Blue Velvet" class="chip-qty-num">0</div>
+                <button class="chip-qty-btn" onclick="updateExtraQty('ExtraCushion-L62','Slate Blue Velvet',1);updateChip('ExtraCushion-L62-Slate Blue Velvet')">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="extra-section" id="st-sec-bowl">
+        <div class="extra-header" onclick="toggleAccordion('st-sec-bowl')">
+          <h3><svg width="20" height="20" color="var(--pink)"><use href="#ic-bowl"/></svg> Extra Bowls <span id="st-count-ExtraBowl" style="color:#ff007f; margin-left:8px;"></span></h3>
+          <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+            <div style="text-align:right; line-height:1.5; font-size:11px; font-weight:700; color:var(--mid);">
+              <div>$8 each</div>
+            </div>
+            <svg class="chevron" width="20" height="20"><use href="#ic-chevron"/></svg>
+          </div>
+        </div>
+        <div class="extra-content" id="bowl-extra-options"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="state.cart.length > 0 ? goToStep(5) : goToStep(1)">Back</button>
+      <button class="btn-main" onclick="goToStep(7)">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 7 — Details -->
+<div id="p7" class="panel">
+  <div class="card-ui">
+    <div class="eyebrow"><svg width="12" height="12"><use href="#ic-user"/></svg> Almost there</div>
+    <h1 class="page-title">Your details</h1>
+    <p class="page-sub">Amy will be in touch personally to confirm everything.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 12px;">
+      <input class="field" type="text" id="fn" placeholder="First name *">
+      <input class="field" type="text" id="ln" placeholder="Last name *">
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 12px;">
+      <input class="field" type="email" id="em" placeholder="Email address *">
+      <input class="field" type="tel" id="ph" placeholder="Phone number *">
+    </div>
+    <input class="field" type="text" id="addr" placeholder="Street Address *">
+    <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:0 12px;">
+      <input class="field" type="text" id="city" placeholder="City / Suburb *">
+      <select class="field" id="st">
+        <option value="">State</option>
+        <option>QLD</option><option>NSW</option><option>VIC</option><option>SA</option>
+        <option>WA</option><option>TAS</option><option>ACT</option><option>NT</option>
+      </select>
+      <input class="field" type="text" id="pc" placeholder="Postcode *">
+    </div>
+    <textarea class="field" id="msg" placeholder="Anything else? (Optional)"></textarea>
+    <div id="form-err" class="err-msg" style="display:none;">Please fill in all required fields.</div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(6)">Back</button>
+      <button class="btn-main" onclick="validateAndContinue()">Review order</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 8 — Review -->
+<div id="p8" class="panel">
+  <div class="card-ui">
+    <div class="sticky-header">
+      <div class="eyebrow"><svg width="12" height="12"><use href="#ic-check"/></svg> Review</div>
+      <h1 class="page-title">Review your order</h1>
+      <p class="page-sub" style="margin-bottom:0;">Everything look right? Amy will confirm personally.</p>
+    </div>
+    <div class="scroll-area">
+      <div id="review-content"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(7)">Back</button>
+      <button class="btn-main" onclick="submitOrder()">Submit order</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 9 — Success -->
+<div id="p9" class="panel">
+  <div class="card-ui card-ui--success" style="text-align:center;">
+    <div style="margin-bottom:40px;"><svg width="80" height="80" color="var(--pink)"><use href="#ic-heart"/></svg></div>
+    <div class="eyebrow" style="justify-content:center; font-size:14px;">Order received</div>
+    <h1 class="page-title" style="font-size:48px; margin-bottom:24px;">Thank you so much.</h1>
+    <div style="max-width:500px; margin:0 auto;">
+      <p class="page-sub" style="font-size:18px; line-height:1.8; color:var(--charcoal);">
+        It genuinely means the world to me. I'll be in touch within <strong>1–2 business days</strong> to confirm your order details and arrange everything.<br><br>
+        Feel free to message me on Facebook if you have any questions at all in the meantime.
+      </p>
+      <p style="margin-top:40px; font-size:28px; font-family:serif; font-style:italic;">Amy x</p>
+    </div>
+    <button class="btn-ghost" style="margin-top:60px;" onclick="window.open('https://sites.google.com/view/petxplorer/home', '_top')">Back to Home</button>
+  </div>
+</div>
+
+<script>
+// ── PRICES ───────────────────────────────────────────────────────────────────
+const PRICES = { crate: 135, cushionL52: 36, cushionL62: 59, bowl: 8 };
+
+function fmt(n) { return 'A$' + n.toFixed(2); }
+
+function calcCrateExtrasTotal(rawExtras) {
+  let total = 0;
+  for (let key in rawExtras) {
+    const qty = rawExtras[key] || 0;
+    if (qty === 0) continue;
+    if (key.includes('L52')) total += qty * PRICES.cushionL52;
+    else if (key.includes('L62')) total += qty * PRICES.cushionL62;
+    else if (key.startsWith('Bowl-')) total += qty * PRICES.bowl;
+  }
+  return total;
+}
+
+function calcOrderTotal() {
+  let total = 0;
+  state.cart.forEach(c => {
+    total += c.qty * PRICES.crate;
+    total += calcCrateExtrasTotal(c.rawExtras || {});
+  });
+  for (let key in extraQuantities) {
+    const qty = extraQuantities[key] || 0;
+    if (qty === 0) continue;
+    if (key.startsWith('ExtraCushion-L52')) total += qty * PRICES.cushionL52;
+    else if (key.startsWith('ExtraCushion-L62')) total += qty * PRICES.cushionL62;
+    else if (key.startsWith('ExtraBowl-')) total += qty * PRICES.bowl;
+  }
+  return total;
+}
+
+function updateBuilderPrice() {
+  const el = document.getElementById('builder-price');
+  if (!el) return;
+  if (state.qty > 0) {
+    el.style.display = 'block';
+    el.innerText = fmt(state.qty * PRICES.crate);
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function updateRunningTotal() {
+  const el = document.getElementById('p4-running-total');
+  if (!el) return;
+  const crateSubtotal = state.qty * PRICES.crate;
+  let extrasTotal = 0;
+  for (let key in extraQuantities) {
+    const qty = extraQuantities[key] || 0;
+    if (qty === 0 || key.startsWith('Extra')) continue;
+    if (key.includes('L52')) extrasTotal += qty * PRICES.cushionL52;
+    else if (key.includes('L62')) extrasTotal += qty * PRICES.cushionL62;
+    else if (key.startsWith('Bowl-')) extrasTotal += qty * PRICES.bowl;
+  }
+  el.innerText = fmt(crateSubtotal + extrasTotal);
+}
+
+// ── END PRICING ──────────────────────────────────────────────────────────────
+
+
+const canvas = document.getElementById('crateCanvas');
+const ctx = canvas.getContext('2d');
+
+const links = {
+  base: "https://res.cloudinary.com/detjogvqn/image/upload/v1779187556/Base_flat_tumc9z.png",
+  top: "https://res.cloudinary.com/detjogvqn/image/upload/v1778663908/Top_z5bhvo.png",
+  trimLeft: "https://res.cloudinary.com/detjogvqn/image/upload/v1778663907/Trim-left_t7a552.png",
+  trimRight: "https://res.cloudinary.com/detjogvqn/image/upload/v1779188014/trim_large_va2ajl.png",
+  handle: "https://res.cloudinary.com/detjogvqn/image/upload/v1778663907/Handle_ikd3vp.png",
+  crateDoor: "https://res.cloudinary.com/detjogvqn/image/upload/v1779657160/Wire_Door_3_s97fus.png"
+};
+
+const COLOURS = {
+  top: [{name:'White Shimmer',hex:'#ffffff'},{name:'Charcoal',hex:'#33363b'},{name:'Baby Pink',hex:'#e8ccd3'},{name:'Baby Blue',hex:'#6fb4f2'},{name:'Lilac',hex:'#bdb9d6'},{name:'Lipstick Pink',hex:'#c44d82'},{name:'Grape',hex:'#4d3652'},{name:'Yellow',hex:'#e8b900'},{name:'Gold',hex:'#b5985a'},{name:'Silver',hex:'#a8abb0'},{name:'Pearl Blue',hex:'#008cb5'},{name:'Jade',hex:'#5da89b'},{name:'Pinky Purple',hex:'#c28da3'}],
+  base: [{name:'Charcoal',hex:'#4a4d52'},{name:'Baby Pink',hex:'#e6c2cb'},{name:'Grape',hex:'#4d3550'},{name:'Gold',hex:'#a39265'},{name:'Silver',hex:'#b2b5ba'},{name:'Pearl Blue',hex:'#a8c7db'},{name:'Jade',hex:'#6b9c94'},{name:'Navy',hex:'#2c3e5e'}],
+  trim: [{name:'Pearl White',hex:'#e8e4db'},{name:'Charcoal',hex:'#2d2f33'},{name:'Navy',hex:'#232b3d'},{name:'Orange',hex:'#e0601d'},{name:'Lime',hex:'#bed630'},{name:'Ruby',hex:'#a12041'},{name:'Lilac',hex:'#b0abc9'},{name:'Lipstick Pink',hex:'#e33b8a'},{name:'Mint',hex:'#a8e3c5'},{name:'Mauve',hex:'#939bc4'},{name:'Gold',hex:'#9c8548'},{name:'Silver',hex:'#a3a8ad'},{name:'Pearl Blue',hex:'#008eb5'},{name:'Jade',hex:'#1c8a87'},{name:'Pinky Purple',hex:'#cf86a3'},{name:'Black Sparkle',hex:'#26292e'}]
+};
+
+const FAVS = [
+  {name:'Midnight Pro', top:'Charcoal', trim:'Black Sparkle', base:'Navy'},
+  {name:'Rose Gold', top:'White Shimmer', trim:'Gold', base:'Baby Pink'},
+  {name:'Ocean Mist', top:'Silver', trim:'Pearl White', base:'Pearl Blue'},
+  {name:'Grape & Gold', top:'Grape', trim:'Gold', base:'Grape'}
+];
+
+const DEFAULT_COLOURS = { top: COLOURS.top[0], trim: COLOURS.trim[0], base: COLOURS.base[0] };
+
+let state = {
+  loaded: 0, images: {}, cart: [],
+  qty: 0, history: [1],
+  current: { top: {...DEFAULT_COLOURS.top}, trim: {...DEFAULT_COLOURS.trim}, base: {...DEFAULT_COLOURS.base}, extras: [] },
+  builderMode: 'custom',
+  editingIndex: -1
+};
+
+let extraQuantities = {};
+
+function render() {
+  if (state.loaded < 5) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawLayer(state.images.base,      state.current.base,  false);
+  drawLayer(state.images.trimLeft,  state.current.trim,  false);
+  drawLayer(state.images.top,       state.current.top,   true);
+  drawLayer(state.images.trimRight, state.current.trim,  false);
+  drawLayer(state.images.handle,    state.current.trim,  false);
+  ctx.drawImage(state.images.crateDoor, 0, 0, 1000, 800);
+  ['top','trim','base'].forEach(c => {
+    const hex = state.current[c].hex;
+    const nameEl = document.getElementById('name-'+c);
+    const blobEl = document.getElementById('blob-'+c);
+    const bigEl  = document.getElementById('big-blob-'+c);
+    if (nameEl) nameEl.innerText = state.current[c].name;
+    if (blobEl) blobEl.style.backgroundColor = hex;
+    if (bigEl)  bigEl.style.backgroundColor   = hex;
+  });
+}
+
+function drawLayer(img, col, isTop) {
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = 1000; tempCanvas.height = 800;
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCtx.drawImage(img, 0, 0, 1000, 800);
+  tempCtx.globalCompositeOperation = "source-atop";
+  tempCtx.fillStyle = col.hex; tempCtx.globalAlpha = 0.8; tempCtx.fillRect(0, 0, 1000, 800);
+  ctx.drawImage(tempCanvas, 0, 0);
+  ctx.globalCompositeOperation = "soft-light"; ctx.globalAlpha = isTop ? 0.5 : 0.7; ctx.drawImage(img, 0, 0, 1000, 800);
+  ctx.globalCompositeOperation = "multiply"; ctx.globalAlpha = 0.3; ctx.drawImage(img, 0, 0, 1000, 800);
+  ctx.globalAlpha = 1.0; ctx.globalCompositeOperation = "source-over";
+}
+
+function buildUI() {
+  const mount = document.getElementById('swatch-mount'); mount.innerHTML = '';
+  ['top','trim','base'].forEach(cat => {
+    const accordion = document.createElement('div');
+    accordion.className = 'colour-accordion';
+    accordion.dataset.cat = cat;
+    const h = document.createElement('div'); h.className = 'cat-header';
+    h.innerHTML = `<div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;"><div><div class="cat-label">${cat} shell</div><div class="cat-active-colour"><div id="blob-${cat}" class="blob-mini"></div><span id="name-${cat}"></span></div></div></div>`;
+    const g = document.createElement('div'); g.className = 'swatch-grid'; g.id = 'grid-'+cat;
+    COLOURS[cat].forEach(c => {
+      const s = document.createElement('div'); s.className = 'swatch'; s.dataset.name = c.name;
+      if (state.current[cat].name === c.name) s.classList.add('active');
+      s.innerHTML = `<div class="swatch-box" style="background:${c.hex}"></div><div class="swatch-name">${c.name}</div>`;
+      s.onclick = () => {
+        state.current[cat] = c; render();
+        document.querySelectorAll('#grid-'+cat+' .swatch').forEach(el => el.classList.remove('active'));
+        s.classList.add('active');
+      };
+      g.appendChild(s);
+    });
+    accordion.appendChild(h);
+    accordion.appendChild(g);
+    mount.appendChild(accordion);
+  });
+
+  const favsMount = document.getElementById('favs-mount'); favsMount.innerHTML = '';
+  FAVS.forEach(f => {
+    const topC  = COLOURS.top.find(c => c.name === f.top);
+    const trimC = COLOURS.trim.find(c => c.name === f.trim);
+    const baseC = COLOURS.base.find(c => c.name === f.base);
+    const card = document.createElement('div'); card.className = 'fav-card';
+    card.innerHTML = `<div class="fav-dots"><div class="fav-dot" style="background:${topC.hex}"></div><div class="fav-dot" style="background:${trimC.hex}"></div><div class="fav-dot" style="background:${baseC.hex}"></div></div><div class="fav-name">${f.name}</div>`;
+    card.onclick = () => {
+      state.current.top = topC; state.current.trim = trimC; state.current.base = baseC;
+      syncSwatches(); render();
+      document.querySelectorAll('#favs-mount .fav-card').forEach(fc => fc.classList.remove('selected'));
+      card.classList.add('selected');
+    };
+    favsMount.appendChild(card);
+  });
+}
+
+function syncSwatches() {
+  ['top','trim','base'].forEach(cat => {
+    document.querySelectorAll('#grid-'+cat+' .swatch').forEach(s => {
+      s.classList.toggle('active', s.dataset.name === state.current[cat].name);
+    });
+  });
+}
+
+function init() {
+  const keys = Object.keys(links);
+  keys.forEach(key => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = links[key];
+    img.onload = () => {
+      state.images[key] = img;
+      state.loaded++;
+      if (state.loaded === keys.length) { buildUI(); render(); }
+    };
+    img.onerror = () => {
+      console.error('PetXplorer: failed to load layer image —', key, links[key]);
+    };
+  });
+  buildBowlOptions();
+}
+// ── END RENDER ZONE ──────────────────────────────────────────────────────────
+
+function showModal(title, msg, actions) {
+  document.getElementById('modal-title').innerText = title;
+  document.getElementById('modal-msg').innerText = msg;
+  const actionsEl = document.getElementById('modal-actions');
+  actionsEl.innerHTML = '';
+  actions.forEach(act => {
+    const btn = document.createElement('button');
+    btn.className = act.type === 'primary' ? 'btn-main' : 'btn-back';
+    btn.innerText = act.label;
+    btn.onclick = () => {
+      document.getElementById('modal-system').classList.remove('active');
+      if (act.fn) act.fn();
+    };
+    actionsEl.appendChild(btn);
+  });
+  document.getElementById('modal-system').classList.add('active');
+}
+
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  const wasActive = el.classList.contains('active');
+  document.querySelectorAll('.extra-section').forEach(s => s.classList.remove('active'));
+  if (!wasActive) {
+    el.classList.add('active');
+    // Scroll the opened section's header to the top of the nearest scroll-area
+    const scrollArea = el.closest('.scroll-area');
+    if (scrollArea) {
+      const headerEl = el.querySelector('.extra-header');
+      const offset = headerEl ? headerEl.offsetTop - el.offsetTop + el.offsetTop - scrollArea.offsetTop : el.offsetTop - scrollArea.offsetTop;
+      scrollArea.scrollTo({ top: el.offsetTop - scrollArea.offsetTop, behavior: 'smooth' });
+    }
+  }
+}
+
+function updateExtraQty(type, color, v) {
+  const key = `${type}-${color}`;
+  if (!extraQuantities[key]) extraQuantities[key] = 0;
+  const isStandalone = type.startsWith('Extra');
+  if (!isStandalone) {
+    // Cap: count all cushion sizes (L52+L62) combined against state.qty
+    const baseType = type.startsWith('Cushion') ? 'Cushion' : 'Bowl';
+    let categoryTotal = 0;
+    for (let k in extraQuantities) {
+      if (k.startsWith(baseType) && !k.startsWith('Extra')) categoryTotal += extraQuantities[k];
+    }
+    if (v > 0 && categoryTotal >= state.qty) {
+      showModal("Almost missed a spot!", `You've only ordered ${state.qty} crate${state.qty > 1 ? 's' : ''}. You can add more replacement items in the next step!`, [{label: "Okay, got it", type: "primary"}]);
+      return;
+    }
+  }
+  extraQuantities[key] = Math.max(0, extraQuantities[key] + v);
+  const display = document.getElementById(`qty-${key}`);
+  if (display) display.innerText = extraQuantities[key];
+  updateChip(key);
+  updateHeaderCounters();
+}
+
+function updateChip(key) {
+  const chip = document.getElementById(`chip-${key}`);
+  const qty = extraQuantities[key] || 0;
+  if (chip) chip.classList.toggle('chip-active', qty > 0);
+}
+
+function toggleCushionPill(pillEl, prefix, name, size) {
+  const chip = pillEl.closest('.colour-chip');
+  const otherSize = size === 'L52' ? 'L62' : 'L52';
+  const thisActive = pillEl.classList.contains('pill-active');
+  // Deactivate both pills first
+  chip.querySelectorAll('.chip-size-pill').forEach(p => p.classList.remove('pill-active'));
+  // Hide both qty rows
+  const rowThis  = document.getElementById(`qrow-${prefix}-${size}-${name}`);
+  const rowOther = document.getElementById(`qrow-${prefix}-${otherSize}-${name}`);
+  if (rowOther) rowOther.style.display = 'none';
+  if (thisActive) {
+    // Was active — toggle off, hide row
+    if (rowThis) rowThis.style.display = 'none';
+  } else {
+    // Activate this pill, show its qty row
+    pillEl.classList.add('pill-active');
+    if (rowThis) rowThis.style.display = 'flex';
+  }
+  // Keep chip-active if either size still has qty > 0
+  const keyL52 = `${prefix}-L52-${name}`;
+  const keyL62 = `${prefix}-L62-${name}`;
+  const anyQty = (extraQuantities[keyL52] || 0) > 0 || (extraQuantities[keyL62] || 0) > 0;
+  if (chip) chip.classList.toggle('chip-active', anyQty);
+}
+
+function updateHeaderCounters() {
+  // Cushion count: sum L52 + L62 keys
+  let cushionSelected = 0;
+  for (let k in extraQuantities) {
+    if ((k.startsWith('Cushion-L52-') || k.startsWith('Cushion-L62-')) && !k.startsWith('Extra')) cushionSelected += extraQuantities[k];
+  }
+  const cushionSpan = document.getElementById('count-Cushion');
+  if (cushionSpan) cushionSpan.innerText = '';
+  const cushionHdr = document.getElementById('p4-count-cushion-hdr');
+  if (cushionHdr) cushionHdr.innerText = state.qty > 0 ? `${cushionSelected}/${state.qty}` : '0';
+
+  // Bowl count
+  let bowlSelected = 0;
+  for (let k in extraQuantities) {
+    if (k.startsWith('Bowl-') && !k.startsWith('Extra')) bowlSelected += extraQuantities[k];
+  }
+  const bowlSpan = document.getElementById('count-Bowl');
+  if (bowlSpan) bowlSpan.innerText = '';
+  const bowlHdr = document.getElementById('p4-count-bowl-hdr');
+  if (bowlHdr) bowlHdr.innerText = state.qty > 0 ? `${bowlSelected}/${state.qty}` : '0';
+
+  // Standalone counts
+  let extraCushionSelected = 0;
+  for (let k in extraQuantities) {
+    if (k.startsWith('ExtraCushion-')) extraCushionSelected += extraQuantities[k];
+  }
+  const stCushion = document.getElementById('st-count-ExtraCushion');
+  if (stCushion) stCushion.innerText = '';
+
+  let extraBowlSelected = 0;
+  for (let k in extraQuantities) {
+    if (k.startsWith('ExtraBowl-')) extraBowlSelected += extraQuantities[k];
+  }
+  const stBowl = document.getElementById('st-count-ExtraBowl');
+  if (stBowl) stBowl.innerText = '';
+
+  updateRunningTotal();
+}
+
+/* FIX: Cleaned up grid loop mapping references so background highlight values don't stick to unselected colors */
+function buildBowlOptions() {
+  const matchedContainer = document.getElementById('bowl-matched-options');
+  const extraContainer = document.getElementById('bowl-extra-options');
+  matchedContainer.innerHTML = ''; extraContainer.innerHTML = '';
+  
+  const matchedChipGrid = document.createElement('div');
+  matchedChipGrid.className = 'chip-grid';
+  matchedContainer.appendChild(matchedChipGrid);
+  
+  const chipGrid = document.createElement('div');
+  chipGrid.className = 'chip-grid';
+  extraContainer.appendChild(chipGrid);
+  
+  COLOURS.trim.forEach(color => {
+    const matchedKey = `Bowl-${color.name}`;
+    const matchedQty = extraQuantities[matchedKey] || 0;
+    const matchedActive = matchedQty > 0 ? ' chip-active' : '';
+    
+    const matchedChip = document.createElement('div');
+    matchedChip.className = 'colour-chip' + matchedActive;
+    matchedChip.id = `chip-${matchedKey}`;
+    matchedChip.innerHTML = `<div class="chip-swatch" style="background:${color.hex}"></div><div class="chip-name">${color.name}</div><div class="chip-qty-ctrl"><button class="chip-qty-btn" onclick="updateExtraQty('Bowl','${color.name}',-1)">−</button><div id="qty-${matchedKey}" class="chip-qty-num">${matchedQty}</div><button class="chip-qty-btn" onclick="updateExtraQty('Bowl','${color.name}',1)">+</button></div>`;
+    matchedChipGrid.appendChild(matchedChip);
+    
+    const extraKey = `ExtraBowl-${color.name}`;
+    const extraQty = extraQuantities[extraKey] || 0;
+    const extraActive = extraQty > 0 ? ' chip-active' : '';
+    
+    const chip = document.createElement('div');
+    chip.className = 'colour-chip' + extraActive;
+    chip.id = `chip-${extraKey}`;
+    chip.innerHTML = `<div class="chip-swatch" style="background:${color.hex}"></div><div class="chip-name">${color.name}</div><div class="chip-qty-ctrl"><button class="chip-qty-btn" onclick="updateExtraQty('ExtraBowl','${color.name}',-1)">−</button><div id="qty-${extraKey}" class="chip-qty-num">${extraQty}</div><button class="chip-qty-btn" onclick="updateExtraQty('ExtraBowl','${color.name}',1)">+</button></div>`;
+    chipGrid.appendChild(chip);
+  });
+}
+
+function skipExtras() {
+  for (let key in extraQuantities) {
+    if (!key.startsWith('Extra')) extraQuantities[key] = 0;
+  }
+  finalizeExtras();
+}
+
+function validateExtras() {
+  let totalCushions = 0; let totalBowls = 0;
+  for (let key in extraQuantities) {
+    if ((key.startsWith('Cushion-L52-') || key.startsWith('Cushion-L62-')) && !key.startsWith('Extra')) totalCushions += extraQuantities[key];
+    if (key.startsWith('Bowl-') && !key.startsWith('Extra')) totalBowls += extraQuantities[key];
+  }
+  const cushionShort = totalCushions > 0 && totalCushions < state.qty;
+  const bowlShort = totalBowls > 0 && totalBowls < state.qty;
+  if (cushionShort || bowlShort) {
+    let msg = "";
+    if (cushionShort) msg += `You chose ${totalCushions} cushion${totalCushions !== 1 ? 's' : ''} for ${state.qty} crates. `;
+    if (bowlShort) msg += `You chose ${totalBowls} bowl${totalBowls !== 1 ? 's' : ''} for ${state.qty} crates. `;
+    showModal("Wait a second...", msg + "Proceed anyway?", [
+      {label: "Yes, that's all I need", type: "primary", fn: finalizeExtras},
+      {label: "No, add more", type: "secondary"}
+    ]);
+  } else {
+    finalizeExtras();
+  }
+}
+
+function finalizeExtras() {
+  state.current.extras = [];
+  for (let key in extraQuantities) {
+    if (!key.startsWith('Extra') && extraQuantities[key] > 0) {
+      state.current.extras.push(`${extraQuantities[key]}x ${key.replace('-', ' ')}`);
+    }
+  }
+  const cartItem = JSON.parse(JSON.stringify({ ...state.current, qty: state.qty, rawExtras: {...extraQuantities} }));
+  if (state.editingIndex > -1) {
+    state.cart[state.editingIndex] = cartItem;
+    state.editingIndex = -1;
+  } else {
+    state.cart.push(cartItem);
+  }
+  goToStep(5);
+}
+
+function resetSwatches() {
+  state.current.top = {...DEFAULT_COLOURS.top};
+  state.current.trim = {...DEFAULT_COLOURS.trim};
+  state.current.base = {...DEFAULT_COLOURS.base};
+  state.current.extras = [];
+  state.qty = 0;
+  for (let k in extraQuantities) { if (!k.startsWith('Extra')) delete extraQuantities[k]; }
+  state.editingIndex = -1;
+  document.querySelectorAll('.qty-val-num').forEach(v => v.innerText = 0);
+  document.getElementById('qty-val').innerText = 0;
+  document.getElementById('qty-warning').style.display = 'none';
+  updateBuilderPrice();
+  buildUI(); render();
+}
+
+function forceParentScrollTop() {
+  window.scrollTo(0, 0);
+  if (window.parentIFrame) {
+    try {
+      window.parentIFrame.scrollTo(0, 0);
+    } catch (e) {
+      console.log('Parent scroll alignment bypass dropped.');
+    }
+  }
+}
+
+function goToStep(n) {
+  forceParentScrollTop();
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('builder-view').style.display = 'none';
+  const cr = document.querySelector('.controls-right'); if (cr) cr.scrollTop = 0;
+  const target = document.getElementById('p' + n);
+  if (target) target.classList.add('active');
+  state.history.push(n);
+  if (n === 4 || n === 6) {
+    document.querySelectorAll('.extra-section').forEach(s => s.classList.remove('active'));
+    if (n === 4) {
+      document.getElementById('p4-crate-qty').innerText = state.qty;
+      document.getElementById('p4-color-ref').innerText = `${state.current.top.name} / ${state.current.trim.name} / ${state.current.base.name}`;
+      document.getElementById('p4-blob-ref').innerHTML = getBlobHtml(state.current);
+      if (state.editingIndex === -1) {
+        for (let key in extraQuantities) { if (!key.startsWith('Extra')) extraQuantities[key] = 0; }
+        // Reset pill toggle UI and hidden qty rows for all cushion chips
+        document.querySelectorAll('#sec-cushion .chip-size-pill').forEach(p => p.classList.remove('pill-active'));
+        document.querySelectorAll('#sec-cushion .chip-size-qty-row').forEach(r => r.style.display = 'none');
+        document.querySelectorAll('#sec-cushion .colour-chip').forEach(c => c.classList.remove('chip-active'));
+      }
+      updateRunningTotal();
+    }
+    buildBowlOptions(); // Re-build options array tracking state settings cleanly
+    for (let key in extraQuantities) {
+      const el = document.getElementById(`qty-${key}`);
+      if (el) el.innerText = extraQuantities[key];
+      updateChip(key);
+    }
+    updateHeaderCounters();
+  }
+  if (n === 5) renderOrderList();
+  if (n === 8) renderReview();
+  setTimeout(() => { if (window.parentIFrame) window.parentIFrame.size(); }, 100);
+}
+
+function openBuilder(mode) {
+  forceParentScrollTop();
+  state.builderMode = mode;
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const bv = document.getElementById('builder-view');
+  bv.style.display = 'flex';
+  const cr = document.querySelector('.controls-right'); if (cr) cr.scrollTop = 0;
+  document.getElementById('swatch-mount').style.display = (mode === 'custom') ? 'block' : 'none';
+  document.getElementById('favs-mount').style.display = (mode === 'favs') ? 'block' : 'none';
+  document.getElementById('builder-tag').innerText = (mode === 'custom') ? 'CUSTOM BUILD' : 'DESIGNER FAVS';
+  document.getElementById('qty-val').innerText = state.qty;
+  setTimeout(render, 100);
+  setTimeout(() => { if (window.parentIFrame) window.parentIFrame.size(); }, 150);
+}
+
+function saveCrate() {
+  if (state.editingIndex > -1 && state.qty === 0) {
+    showModal("Remove Crate?", "Would you like to remove this crate from your cart?", [
+      {label: "Yes, remove it", type: "primary", fn: () => { state.cart.splice(state.editingIndex, 1); state.editingIndex = -1; goToStep(5); }},
+      {label: "No, keep it", type: "secondary"}
+    ]);
+    return;
+  }
+  if (state.qty > 0) {
+    document.getElementById('qty-warning').style.display = 'none';
+    goToStep(4);
+  } else {
+    const warn = document.getElementById('qty-warning');
+    warn.innerText = "⚠ Please choose a quantity of 1 or more";
+    warn.style.display = 'block';
+  }
+}
+
+function updateQty(v) {
+  state.qty = Math.max(0, state.qty + v);
+  document.getElementById('qty-val').innerText = state.qty;
+  if (state.qty > 0) document.getElementById('qty-warning').style.display = 'none';
+  updateBuilderPrice();
+}
+
+function resetLoop() { resetSwatches(); goToStep(2); }
+
+function goBackFromCart() {
+  if (state.cart.length > 0) { goToStep(4); } else { goToStep(2); }
+}
+
+function editItem(index) {
+  const item = state.cart[index];
+  state.editingIndex = index;
+  state.current = JSON.parse(JSON.stringify(item));
+  state.qty = item.qty;
+  extraQuantities = JSON.parse(JSON.stringify(item.rawExtras || {}));
+  syncSwatches(); openBuilder('custom');
+}
+
+function getBlobHtml(crate) {
+  return `<div class="summary-blob"><div class="layer-pip" style="background:${crate.top.hex}"></div><div class="layer-pip" style="background:${crate.trim.hex}"></div><div class="layer-pip" style="background:${crate.base.hex}"></div></div>`;
+}
+
+function renderOrderList() {
+  const list = document.getElementById('cart-list'); list.innerHTML = '';
+  state.cart.forEach((c, i) => {
+    const crateSubtotal = c.qty * PRICES.crate;
+    const extrasSubtotal = calcCrateExtrasTotal(c.rawExtras || {});
+    const itemTotal = crateSubtotal + extrasSubtotal;
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'cart-item';
+    itemDiv.innerHTML = `<div class="summary-row">${getBlobHtml(c)}<div><div class="cart-item-label">Crate ${i+1}</div><strong>${c.top.name} · ${c.trim.name} · ${c.base.name}</strong><br><span>Qty ${c.qty}${c.extras.length ? ' · ' + c.extras.join(', ') : ' · No extras'}</span><div class="cart-item-price">${fmt(itemTotal)}</div></div></div><div class="cart-actions"><button class="cart-btn edit">Edit</button></div>`;
+    itemDiv.querySelector('.edit').onclick = () => editItem(i);
+    list.appendChild(itemDiv);
+  });
+  // Grand total
+  const grandTotal = calcOrderTotal();
+  const totalDiv = document.createElement('div');
+  totalDiv.className = 'grand-total-block';
+  totalDiv.innerHTML = `<span class="gt-label">Estimated total</span><span class="gt-amount">${fmt(grandTotal)}</span>`;
+  list.appendChild(totalDiv);
+}
+
+function validateAndContinue() {
+  const ids = ['fn','ln','em','ph','addr','city','st','pc']; let valid = true;
+  ids.forEach(id => {
+    const val = document.getElementById(id).value.trim();
+    document.getElementById(id).classList.toggle('error', !val);
+    if (!val) valid = false;
+  });
+  if (!valid) { document.getElementById('form-err').style.display = 'block'; return; }
+  document.getElementById('form-err').style.display = 'none'; goToStep(8);
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+function renderReview() {
+  const r = document.getElementById('review-content'); r.innerHTML = '';
+  r.innerHTML += `<div style="margin-bottom:30px;"><div class="eyebrow">Contact Details</div><div class="cart-item"><div style="font-size:14px; line-height:1.6;"><strong>${esc(document.getElementById('fn').value)} ${esc(document.getElementById('ln').value)}</strong><br>${esc(document.getElementById('em').value)}<br>${esc(document.getElementById('ph').value)}<br>${esc(document.getElementById('addr').value)}<br>${esc(document.getElementById('city').value)}, ${esc(document.getElementById('st').value)} ${esc(document.getElementById('pc').value)}</div></div></div>`;
+  let cratesHtml = `<div class="eyebrow">Your Crates</div>`;
+  let cratesSubtotal = 0;
+  state.cart.forEach((c, i) => {
+    const crateSubtotal = c.qty * PRICES.crate;
+    const extrasSubtotal = calcCrateExtrasTotal(c.rawExtras || {});
+    const itemTotal = crateSubtotal + extrasSubtotal;
+    cratesSubtotal += itemTotal;
+    cratesHtml += `<div class="cart-item"><div class="summary-row">${getBlobHtml(c)}<div><div class="cart-item-label">Crate ${i+1}</div><strong>${c.top.name} · ${c.trim.name} · ${c.base.name}</strong><br><span>Qty ${c.qty}${c.extras.length ? ' · ' + c.extras.join(', ') : ' · No extras'}</span><div class="cart-item-price">${fmt(itemTotal)}</div></div></div></div>`;
+  });
+  cratesHtml += `<div style="display:flex; justify-content:flex-end; padding:4px 0 0;"><span style="font-size:11px; font-weight:800; color:var(--mid);">Crates subtotal: ${fmt(cratesSubtotal)}</span></div>`;
+  r.innerHTML += cratesHtml;
+
+  let sparesItems = [];
+  let sparesTotal = 0;
+  for (let key in extraQuantities) {
+    if (key.startsWith('Extra') && extraQuantities[key] > 0) {
+      const qty = extraQuantities[key];
+      let price = 0;
+      let typeLabel = '';
+      let colourLabel = '';
+      if (key.startsWith('ExtraCushion-L52-')) {
+        price = PRICES.cushionL52;
+        typeLabel = 'CUSHION L52';
+        colourLabel = key.replace('ExtraCushion-L52-', '');
+      } else if (key.startsWith('ExtraCushion-L62-')) {
+        price = PRICES.cushionL62;
+        typeLabel = 'CUSHION L62';
+        colourLabel = key.replace('ExtraCushion-L62-', '');
+      } else if (key.startsWith('ExtraBowl-')) {
+        price = PRICES.bowl;
+        typeLabel = 'BOWL';
+        colourLabel = key.replace('ExtraBowl-', '');
+      }
+      sparesTotal += qty * price;
+      sparesItems.push({ typeLabel, colourLabel, qty, lineTotal: qty * price });
+    }
+  }
+  if (sparesItems.length > 0) {
+    let sparesRows = sparesItems.map(item =>
+      `<div class="cart-item" style="flex-direction:column; align-items:stretch; gap:4px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div style="font-size:10px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:var(--pink); margin-bottom:3px;">${esc(item.typeLabel)}</div>
+            <div style="font-size:14px; font-weight:800; color:var(--charcoal);">${esc(item.colourLabel)}</div>
+            <div style="font-size:12px; color:var(--mid); margin-top:2px;">Qty ${item.qty}</div>
+          </div>
+          <div style="font-size:14px; font-weight:800; color:var(--charcoal); white-space:nowrap; padding-top:2px;">${fmt(item.lineTotal)}</div>
+        </div>
+      </div>`
+    ).join('');
+    r.innerHTML += `<div style="margin-top:30px;"><div class="eyebrow">Extras</div>${sparesRows}<div style="display:flex; justify-content:flex-end; padding:4px 0 0;"><span style="font-size:11px; font-weight:800; color:var(--mid);">Extras subtotal: ${fmt(sparesTotal)}</span></div></div>`;
+  }
+
+  const note = document.getElementById('msg').value.trim();
+  if (note) r.innerHTML += `<div style="margin-top:30px;"><div class="eyebrow">Your Message</div><div class="cart-item"><p style="font-style:italic; font-size:13px; color:var(--mid);">"${esc(note)}"</p></div></div>`;
+
+  const totalCrateQty = state.cart.reduce((sum, c) => sum + c.qty, 0);
+  const productSubtotal = calcOrderTotal();
+  const hasExtrasOnly = totalCrateQty === 0 && productSubtotal > 0;
+  let shippingAmount = 0;
+  let shippingDisplay = '';
+  if (totalCrateQty > 0) {
+    shippingAmount = Math.ceil(totalCrateQty / 5) * 39;
+    shippingDisplay = fmt(shippingAmount);
+  } else if (hasExtrasOnly) {
+    shippingDisplay = 'TBC';
+  }
+  const grandTotal = productSubtotal + shippingAmount;
+
+  let summaryHtml = `<div style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">`;
+  summaryHtml += `<div style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px; font-weight:700; color:var(--mid);"><span>Product subtotal</span><span>${fmt(productSubtotal)}</span></div>`;
+  if (shippingDisplay) {
+    summaryHtml += `<div style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px; font-weight:700; color:var(--mid);"><span>Shipping</span><span>${shippingDisplay}</span></div>`;
+  }
+  summaryHtml += `</div>`;
+  r.innerHTML += summaryHtml;
+  r.innerHTML += `<div class="grand-total-block" style="margin-top:12px;"><span class="gt-label">Estimated total</span><span class="gt-amount">${fmt(grandTotal)}</span></div>`;
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrov68gl-N9AKDed9atde9UN-Z1VKTshYSCOSCLR6TaUnDJrpQJEUZzD0qMOx4O5XYcQ/exec';
+
+function buildOrderPayload() {
+  const cratesData = state.cart.map((c, i) => ({
+    label: `Crate ${i + 1}`,
+    colours: `${c.top.name} / ${c.trim.name} / ${c.base.name}`,
+    qty: c.qty,
+    extras: c.extras.length ? c.extras.join(', ') : 'No extras'
+  }));
+  let standalones = [];
+  for (let key in extraQuantities) {
+    if (key.startsWith('Extra') && extraQuantities[key] > 0) standalones.push(`${extraQuantities[key]}x ${key.replace('Extra', '').replace('-', ' ')}`);
+  }
+  return {
+    firstName: document.getElementById('fn').value.trim(),
+    lastName:  document.getElementById('ln').value.trim(),
+    email:     document.getElementById('em').value.trim(),
+    phone:     document.getElementById('ph').value.trim(),
+    address:   document.getElementById('addr').value.trim(),
+    city:      document.getElementById('city').value.trim(),
+    state:     document.getElementById('st').value.trim(),
+    postcode:  document.getElementById('pc').value.trim(),
+    message:   document.getElementById('msg').value.trim(),
+    crates:    cratesData,
+    standalones: standalones.join(', ') || 'None'
+  };
+}
+
+async function submitOrder() {
+  const btn = document.querySelector('#p8 .btn-main');
+  btn.innerText = 'Sending...';
+  btn.disabled = true;
+  try {
+    const payload = buildOrderPayload();
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    goToStep(9);
+  } catch (err) {
+    console.error('Order submission error:', err);
+    btn.innerText = 'Submit order';
+    btn.disabled = false;
+    showModal("Something went wrong", "We couldn't send your order right now. Please try again or message Amy directly on Facebook.", [{label: "OK", type: "primary"}]);
+  }
+}
+
+init();
+</script>
+
+<script>
+  if (window.parentIFrame) { window.parentIFrame.autoResize(true); }
+</script>
+<!-- LIGHTBOX -->
+<div id="lightbox-overlay" class="lightbox-overlay" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="">
+    <div id="lightbox-name" class="lightbox-name"></div>
+  </div>
+</div>
+
+<script>
+function openLightbox(src, name) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-name').innerText = name;
+  document.getElementById('lightbox-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Attach click handlers to all cushion chip swatches after DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.chip-swatch').forEach(function(img) {
+    img.classList.add('zoomable');
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openLightbox(img.src, img.alt);
+    });
+  });
+});
+</script>
+
+</body>
+</html>
