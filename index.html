@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/petx-favicon.png">
 <title>PetXplorer - Bespoke Pet Travel Crates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,16 +51,6 @@
     background: var(--light-grey);
     box-shadow: 0 1px 0 rgba(232,0,122,0.15);
   }
-  .nav-logo {
-    font-family: var(--sans);
-    font-weight: 500;
-    font-size: 1.1rem;
-    letter-spacing: 0.2em;
-    color: #ffffff;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  .nav-logo span { color: var(--hot-pink); }
   .nav-links {
     display: flex;
     align-items: center;
@@ -543,7 +534,9 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">Pet<span>Xplorer</span></a>
+  <a href="#hero" class="nav-logo">
+  <img src="petxplorer-logo-site.png" alt="PetXplorer" style="height:44px; width:auto; object-fit:contain;">
+</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#crates">Crates</a></li>
     <li><a href="#cushions">Cushions</a></li>
