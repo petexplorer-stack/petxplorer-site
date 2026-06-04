@@ -18,9 +18,8 @@
     --hot-pink:   #e8007a;
     --baby-pink:  #f9c6e0;
     --pale-pink:  #fce6f2;
-    --serif:      'Cormorant Garant', Georgia, serif;
-    --script: 'Pacifico', cursive;
     --sans: 'Roboto', 'Segoe UI', -apple-system, sans-serif;
+    --script: 'Pacifico', cursive;
   }
 
   html { scroll-behavior: smooth; }
@@ -96,17 +95,35 @@
   .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: #ffffff; transition: 0.3s; }
 
   /* ---- HERO ---- */
+  /* FIX: removed position:sticky — hero now scrolls normally.
+     The background image is on a pseudo-element so it doesn't leak. */
   #hero {
+    position: relative;
     min-height: 100vh;
-    position: sticky;
-    top: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 120px 5% 80px;
-    background: url('mainheader-grape.jpg') center/cover no-repeat;
     overflow: hidden;
+    isolation: isolate;
   }
+  /* Background image layer — separate so content can sit above */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('mainheader-grape.jpg') center/cover no-repeat;
+    z-index: -1;
+  }
+  /* Subtle dark overlay on the background only — keeps text legible */
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(67,67,67,0.25);
+    z-index: -1;
+  }
+
   .hero-badge {
     display: inline-block;
     font-size: 0.7rem;
@@ -118,8 +135,12 @@
     border-radius: 2px;
     margin-bottom: 2.5rem;
     width: fit-content;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(4px);
   }
+
+  /* FIX: hero text is now dark-grey, not white.
+     Using DM Sans Bold (Segoe-like clean sans) instead of Cormorant. */
   .hero-headline {
     font-family: 'Roboto', 'Segoe UI', -apple-system, sans-serif;
     color: var(--dark-grey);
@@ -128,26 +149,29 @@
   }
   .hero-headline .line-sm {
     display: block;
-    font-size: 58px;
+    font-size: 74px;
     font-weight: 800;
   }
   .hero-headline .line-lg {
     display: block;
     font-family: 'Pacifico', cursive;
-    font-size: 58px;
+    font-size: 74px;
     font-style: normal;
     font-weight: 400;
     color: var(--hot-pink);
     letter-spacing: 0.02em;
     line-height: 1.2;
   }
+
+  /* FIX: hero sub text in dark grey */
   .hero-sub {
     font-size: 1rem;
-    color: rgba(255,255,255,0.8);
+    color: var(--dark-grey);
     max-width: 420px;
     margin-bottom: 3rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.7;
+    text-shadow: 0 1px 8px rgba(255,255,255,0.4);
   }
   .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
   .btn-primary {
@@ -167,10 +191,12 @@
   .btn-outline {
     display: inline-block;
     padding: 1rem 2rem;
-    border: 1px solid rgba(255,255,255,0.35);
-    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(67,67,67,0.4);
+    color: var(--dark-grey);
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(4px);
     font-size: 0.75rem;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     text-decoration: none;
@@ -178,8 +204,8 @@
     transition: border-color 0.2s, color 0.2s, transform 0.2s;
   }
   .btn-outline:hover {
-    border-color: rgba(255,255,255,0.7);
-    color: #ffffff;
+    border-color: var(--dark-grey);
+    background: rgba(255,255,255,0.4);
     transform: translateY(-2px);
   }
   .hero-scroll-hint {
@@ -189,7 +215,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    color: rgba(67,67,67,0.55);
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -199,10 +225,11 @@
     display: block;
     width: 30px;
     height: 1px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(67,67,67,0.4);
   }
 
   /* ---- STATS ---- */
+  /* FIX: explicitly set dark-grey background, removed any ambiguity */
   #stats {
     background: var(--dark-grey);
     padding: 3.5rem 5%;
@@ -214,9 +241,9 @@
   }
   .stat-item { text-align: center; }
   .stat-number {
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--hot-pink);
     display: block;
     line-height: 1;
@@ -238,16 +265,18 @@
     margin-bottom: 0.75rem;
   }
   .section-title {
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: clamp(2.2rem, 5vw, 3.8rem);
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.1;
     color: var(--dark-grey);
+    letter-spacing: -0.02em;
   }
   .section-title.light { color: var(--light-grey); }
   .section-title em {
     font-style: italic;
     color: var(--hot-pink);
+    font-weight: 700;
   }
   .section-body {
     font-size: 1rem;
@@ -343,12 +372,13 @@
     margin-bottom: 1.5rem;
   }
   .cta-band-inner h2 {
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--light-grey);
     line-height: 1.1;
     margin-bottom: 2.5rem;
+    letter-spacing: -0.02em;
   }
   .cta-band-inner h2 em {
     font-style: italic;
@@ -418,12 +448,12 @@
     padding-left: 4rem;
   }
   .about-quote {
-    font-family: var(--serif);
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-family: var(--sans);
+    font-size: clamp(1.4rem, 3vw, 2rem);
     font-style: italic;
     color: var(--light-grey);
     line-height: 1.4;
-    font-weight: 400;
+    font-weight: 300;
     margin-bottom: 1.5rem;
   }
   .about-quote em { color: var(--hot-pink); font-style: normal; }
