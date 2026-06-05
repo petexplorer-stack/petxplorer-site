@@ -676,8 +676,21 @@
     <p class="section-body fade-up" style="margin-top:1rem;">Each crate features a colour-customisable base, top, and trim. Mix and match to create something completely unique to your pet.</p>
   </div>
 
-  <div class="cx-strip" id="cxStrip">
-    <div style="width:5%;flex-shrink:0;"></div>
+  <style>
+    @media (min-width: 1024px) {
+      #cxStrip {
+        justify-content: center !important;
+        overflow-x: visible !important;
+      }
+      #cxStrip .cx-desktop-spacer {
+        display: none !important;
+      }
+    }
+  </style>
+
+  <div class="cx-strip" id="cxStrip" style="display: flex;">
+    <div class="cx-desktop-spacer" style="width:5%; flex-shrink:0;"></div>
+    
     <div class="cx-card fade-up">
       <img class="cx-img" src="images/theclassic-crate.jpg" alt="The Classic crate">
       <div class="cx-overlay"></div>
@@ -687,6 +700,7 @@
         <span class="cx-tag">Understated elegance. Quietly refined at every terminal.</span>
       </div>
     </div>
+    
     <div class="cx-card fade-up fade-up-delay-1">
       <img class="cx-img" src="images/thesleek-crate.jpg" alt="The Sleek crate">
       <div class="cx-overlay"></div>
@@ -696,6 +710,7 @@
         <span class="cx-tag">Arrive in style. Because they deserve the coolest ride.</span>
       </div>
     </div>
+    
     <div class="cx-card fade-up fade-up-delay-2">
       <img class="cx-img" src="images/thebold-crate.jpg" alt="The Bold crate">
       <div class="cx-overlay"></div>
@@ -705,6 +720,7 @@
         <span class="cx-tag">Never lost in a crowd. Bright, bold, completely you.</span>
       </div>
     </div>
+    
     <div class="cx-card fade-up fade-up-delay-3">
       <img class="cx-img" src="images/thestatement-crate.jpg" alt="The Statement crate">
       <div class="cx-overlay"></div>
@@ -714,7 +730,8 @@
         <span class="cx-tag">Serious. Sophisticated. Still the most stylish in the terminal.</span>
       </div>
     </div>
-    <div style="width:5%;flex-shrink:0;"></div>
+    
+    <div class="cx-desktop-spacer" style="width:5%; flex-shrink:0;"></div>
   </div>
 
   <div class="cx-footer fade-up">
