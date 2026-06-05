@@ -273,6 +273,7 @@
   .cx-strip {
     width: 100%;
     overflow-x: auto;
+   overflow-y: hidden;
     display: flex;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -283,7 +284,7 @@
   .cx-strip.grabbing { cursor: grabbing; }
   .cx-card {
     flex: 0 0 320px;
-    height: 480px;
+    aspect-ratio: 1080 / 1350;
     position: relative;
     overflow: hidden;
     border-radius: 6px;
@@ -616,9 +617,16 @@
     .cx-card { flex: 0 0 260px; height: 400px; }
     
     .cushions-grid { 
-      grid-template-columns: 1fr; 
-      gap: 2.5rem; 
-      max-width: 340px;
+      display: flex !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      scrollbar-width: none;
+      padding: 0 calc(50vw - 140px) !important; 
+    }
+   .cushion-card {
+      flex: 0 0 280px !important;
+      scroll-snap-align: center !important;
     }
     .cushions-usps { 
       grid-template-columns: 1fr; 
@@ -781,9 +789,9 @@
     <div class="cushion-card fade-up">
       <img src="images/cushion-display.jpg" alt="Comfort cushion">
     </div>
-    <div class="cushion-card fade-up fade-up-delay-1">
-      <img src="images/cat-cushion.jpg" alt="Comfort cushion">
-    </div>
+    <div class="cushion-card fade-up fade-up-delay-1" tabindex="0" autofocus>
+  <img src="images/cat-cushion.jpg" alt="Comfort cushion">
+</div>
     <div class="cushion-card fade-up fade-up-delay-2">
       <img src="images/cushion-display-2.jpg" alt="Comfort cushion">
     </div>
