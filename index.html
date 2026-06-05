@@ -273,7 +273,6 @@
   .cx-strip {
     width: 100%;
     overflow-x: auto;
-    overflow-y: hidden !important; /* FIXED: Crates block vertical touch drag */
     display: flex;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -283,8 +282,8 @@
   .cx-strip::-webkit-scrollbar { display: none; }
   .cx-strip.grabbing { cursor: grabbing; }
   .cx-card {
-    flex: 0 0 280px;
-    aspect-ratio: 1080/1350 !important; /* FIXED: True 1080x1350 crate crop fix layout */
+    flex: 0 0 320px;
+    height: 480px;
     position: relative;
     overflow: hidden;
     border-radius: 6px;
@@ -292,7 +291,7 @@
     background: #1a1a1a;
     transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.4s;
     margin-right: 12px;
-    flex-shrink: 0 !important;
+    flex-shrink: 0;
   }
   .cx-card:last-child { margin-right: 0; }
   .cx-card:hover {
@@ -408,7 +407,7 @@
 
   /* ---- CUSHIONS ---- */
   #cushions {
-    padding: 7rem 5%; /* RESTORED: Standard padding */
+    padding: 7rem 5%;
     background: var(--pale-grey);
   }
   .cushions-header {
@@ -417,17 +416,17 @@
     text-align: center;
   }
   .cushions-grid {
-    display: grid; /* RESTORED: Back to the original clean desktop grid engine */
+    display: grid;
     grid-template-columns: 1fr 1.15fr 1fr;
-    gap: 5rem; /* RESTORED: Your exact original wide gap space */
-    margin-bottom: 2.5rem;
+    gap: 5rem;
+    margin-bottom: 4rem;
     align-items: center;
-    max-width: 1100px; /* RESTORED: Locked perfectly down to 1100px block width */
-    margin-left: auto; /* RESTORED: Middle aligns the rows cleanly on desktop PC */
-    margin-right: auto; /* RESTORED: Middle aligns the rows cleanly on desktop PC */
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .cushion-card {
-    aspect-ratio: 733/1092; /* RESTORED: Reverted safely to your original 733x1092 proportions */
+    aspect-ratio: 733/1092;
     overflow: hidden;
     border-radius: 6px;
     background: var(--light-grey);
@@ -441,38 +440,45 @@
   }
   .cushion-card img { transition: transform 0.6s ease; }
   .cushion-card:hover img { transform: scale(1.04); }
-  
   .cushions-usps {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto;
   }
   .cushion-usp {
     background: var(--light-grey);
     border-radius: 6px;
-    padding: 1.1rem 1rem;
+    padding: 1.5rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
     text-align: center;
     border: 1px solid rgba(201,160,122,0.4);
+    min-height: 150px;
+    justify-content: flex-start;
   }
   .cushion-usp-icon {
-    font-size: 22px;
+    font-size: 24px;
     color: var(--hot-pink);
+    margin-bottom: 0.25rem;
   }
   .cushion-usp-label {
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--dark-grey);
+    line-height: 1.3;
   }
   .cushion-usp-sub {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     color: var(--mid-grey);
     font-weight: 300;
+    line-height: 1.4;
+    margin-top: auto;
   }
   /* ---- ABOUT ---- */
   #about {
@@ -573,7 +579,13 @@
   .fade-up-delay-2 { transition-delay: 0.2s; }
   .fade-up-delay-3 { transition-delay: 0.35s; }
 
-  /* ---- RESPONSIVE OVERRIDES ---- */
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 990px) {
+    .cushions-grid { gap: 2rem; }
+    .cushions-usps { grid-template-columns: repeat(2, 1fr); }
+    .cushion-usp { min-height: 130px; }
+  }
+
   @media (max-width: 900px) {
     #stats { grid-template-columns: repeat(2, 1fr); }
     #about { grid-template-columns: 1fr; gap: 3rem; }
@@ -601,15 +613,21 @@
     .nav-links.open a { font-size: 1rem; color: rgba(255,255,255,0.85); }
     .nav-hamburger { display: flex; }
     #stats { grid-template-columns: 1fr 1fr; gap: 2.5rem 1rem; padding: 2rem 5%; }
+    .cx-card { flex: 0 0 260px; height: 400px; }
     
-    /* FIXED: Mobile crate cards auto-scale off uncropped aspect ratio */
-    .cx-card { 
-      flex: 0 0 260px; 
-      height: auto !important; 
+    .cushions-grid { 
+      grid-template-columns: 1fr; 
+      gap: 2.5rem; 
+      max-width: 340px;
     }
-
-    .cushions-grid { grid-template-columns: 1fr 1fr; }
-    .cushions-grid .cushion-card:last-child { display: none; }
+    .cushions-usps { 
+      grid-template-columns: 1fr; 
+      gap: 1rem; 
+    }
+    .cushion-usp {
+      min-height: auto;
+      padding: 1.25rem 1rem;
+    }
     
     footer { flex-direction: column; align-items: flex-start; }
     #hero::before {
