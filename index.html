@@ -217,7 +217,7 @@
     font-family: var(--sans);
     font-size: clamp(1.2rem, 3vw, 2rem);
     font-weight: 700;
-    color: var(--hot-pink);
+    color: rgba(245, 245, 247, 0.92);
     display: block;
     line-height: 1;
     margin-bottom: 0.25rem;
@@ -226,7 +226,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(243,243,243,0.5);
+    color: rgba(245, 245, 247, 0.92);
   }
   /* ---- SECTION SHARED ---- */
   .section-tag {
@@ -246,12 +246,13 @@
   }
   .section-title.light { color: var(--light-grey); }
   .section-title em {
-    font-style: italic;
+   font-family: var(--script);
+    font-style: normal;
     color: var(--hot-pink);
     font-weight: 700;
   }
   .section-body {
-    font-size: 1rem;
+    font-size: 1.4rem;
     color: var(--mid-grey);
     max-width: 480px;
     line-height: 1.75;
@@ -365,7 +366,7 @@
 
   /* ---- CTA BAND ---- */
   #cta-band {
-    background: var(--dark-grey);
+    background: #1A1A1C;
     padding: 3rem 5%;
     text-align: center;
     position: relative;
@@ -642,10 +643,14 @@
       overflow-y: hidden !important;
       scroll-snap-type: x mandatory !important;
       scrollbar-width: none;
-      padding: 0 calc(50vw - 140px) !important; 
+      padding: 0 18% !important; 
+      gap: 1rem !important;
     }
-   .cushion-card {
-      flex: 0 0 280px !important;
+   .cushions-grid::-webkit-scrollbar { 
+      display: none; 
+    }
+    .cushion-card {
+      flex: 0 0 64vw !important; 
       scroll-snap-align: center !important;
     }
     .cushions-usps { 
@@ -700,7 +705,16 @@
     #hero::after {
       z-index: 0;
     }
-
+.hero-actions {
+      margin-bottom: 2rem !important;
+    }
+    .hero-scroll-hint {
+      position: relative !important;
+      bottom: auto !important;
+      left: auto !important;
+      margin-top: 4rem !important;
+      justify-content: center !important;
+    }
   }
 </style>
 </head>
@@ -947,6 +961,18 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  const cushionStrip = document.getElementById('cushionStrip');
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth <= 640 && cushionStrip) {
+      const targetCard = cushionStrip.children[1];
+      if (targetCard) {
+        cushionStrip.scrollLeft = targetCard.offsetLeft - (window.innerWidth / 2) + (targetCard.offsetWidth / 2);
+      }
+    }
+  });
+
+  const slider = document.getElementById('uspSlider');
  const slider = document.getElementById('uspSlider');
   let rotationTimer;
 
