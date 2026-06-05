@@ -443,10 +443,10 @@
   .cushion-card:hover img { transform: scale(1.04); }
   .cushions-usps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
     max-width: 1100px;
-    margin: 0 auto;
+    margin: 0 auto 4rem;
   }
   .cushion-usp {
     background: var(--light-grey);
@@ -587,8 +587,28 @@
     .cushion-usp { min-height: 130px; }
   }
 
-  @media (max-width: 900px) {
-    #stats { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 900px) {
+    #stats { 
+      grid-template-columns: repeat(4, 1fr) !important; 
+      gap: 0.5rem !important;
+      padding: 1rem 2.5% !important;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-number {
+      font-size: clamp(1rem, 3.5vw, 1.8rem) !important;
+    }
+    .stat-label {
+      font-size: clamp(0.5rem, 1.8vw, 0.7rem) !important;
+      line-height: 1.2 !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+    }
+
     #about { grid-template-columns: 1fr; gap: 3rem; }
     .about-right {
       border-left: none;
@@ -629,14 +649,41 @@
       scroll-snap-align: center !important;
     }
     .cushions-usps { 
-      grid-template-columns: 1fr; 
-      gap: 1rem; 
+      display: flex !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      scrollbar-width: none;
+      gap: 1rem !important; 
+      padding: 0 5% 1rem !important;
+      margin-bottom: 3rem !important;
+    }
+    .cushions-usps::-webkit-scrollbar { 
+      display: none; 
     }
     .cushion-usp {
-      min-height: auto;
+      flex: 0 0 45% !important; 
+      scroll-snap-align: center !important;
+      min-height: 140px !important;
       padding: 1.25rem 1rem;
     }
-    
+    #hero {
+      align-items: center !important;    
+      text-align: center !important;     
+      padding-left: 5% !important;       
+    }
+
+    .hero-actions {
+      justify-content: center !important; 
+    }
+
+    .hero-badge {
+      font-size: clamp(0.55rem, 2.5vw, 0.7rem) !important; 
+      padding: 0.45rem 0.65rem !important;                
+      width: max-content !important;                      
+      max-width: 100% !important;                         
+      letter-spacing: 0.15em !important;
+    }
     footer { flex-direction: column; align-items: flex-start; }
     #hero::before {
       content: '';
@@ -644,7 +691,16 @@
       inset: 0;
       background: rgba(255,255,255,0.35);
       pointer-events: none;
+     z-index: 1;
     }
+#hero * {
+      position: relative;
+      z-index: 2;
+    }
+    #hero::after {
+      z-index: 0;
+    }
+
   }
 </style>
 </head>
@@ -785,18 +841,8 @@
     <h2 class="section-title">Softness that<br><em>travels well.</em></h2>
     <p class="section-body" style="margin-top:1rem;">Handcrafted cushion inserts in beautiful prints, designed to fit perfectly inside your PetXplorer crate.</p>
   </div>
-  <div class="cushions-grid">
-    <div class="cushion-card fade-up">
-      <img src="images/cushion-display.jpg" alt="Comfort cushion">
-    </div>
-    <div class="cushion-card fade-up fade-up-delay-1" tabindex="0" autofocus>
-  <img src="images/cat-cushion.jpg" alt="Comfort cushion">
-</div>
-    <div class="cushion-card fade-up fade-up-delay-2">
-      <img src="images/cushion-display-2.jpg" alt="Comfort cushion">
-    </div>
-  </div>
-  <div class="cushions-usps fade-up">
+
+  <div class="cushions-usps fade-up" id="uspSlider">
     <div class="cushion-usp">
       <i class="ti ti-layers-intersect cushion-usp-icon" aria-hidden="true"></i>
       <span class="cushion-usp-label">Double Wadding</span>
@@ -816,6 +862,23 @@
       <i class="ti ti-palette cushion-usp-icon" aria-hidden="true"></i>
       <span class="cushion-usp-label">20+ Designs</span>
       <span class="cushion-usp-sub">Bold beautiful prints</span>
+    </div>
+    <div class="cushion-usp">
+      <i class="ti ti-arrows-maximize cushion-usp-icon" aria-hidden="true"></i>
+      <span class="cushion-usp-label">2 Sizes Available</span>
+      <span class="cushion-usp-sub">Perfect tailored fit</span>
+    </div>
+  </div>
+
+  <div class="cushions-grid" id="cushionStrip">
+    <div class="cushion-card fade-up">
+      <img src="images/cushion-display.jpg" alt="Comfort cushion">
+    </div>
+    <div class="cushion-card fade-up fade-up-delay-1">
+      <img src="images/cat-cushion.jpg" alt="Comfort cushion">
+    </div>
+    <div class="cushion-card fade-up fade-up-delay-2">
+      <img src="images/cushion-display-2.jpg" alt="Comfort cushion">
     </div>
   </div>
 </section>
@@ -884,6 +947,37 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+ const slider = document.getElementById('uspSlider');
+  let rotationTimer;
+
+  function runSliderCycle() {
+    if (window.innerWidth <= 640 && slider) {
+      rotationTimer = setInterval(() => {
+        const itemWidth = slider.querySelector('.cushion-usp').offsetWidth + 16;
+        if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 20) {
+          slider.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          slider.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
+      }, 3000);
+    }
+  }
+
+  function haltSliderCycle() {
+    clearInterval(rotationTimer);
+  }
+
+  if (slider) {
+    slider.addEventListener('touchstart', haltSliderCycle, { passive: true });
+    slider.addEventListener('mousedown', haltSliderCycle);
+  }
+
+  window.addEventListener('resize', () => {
+    haltSliderCycle();
+    runSliderCycle();
+  });
+
+  runSliderCycle();
 </script>
 </body>
 </html>
