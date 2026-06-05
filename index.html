@@ -65,7 +65,7 @@
     text-transform: uppercase;
     transition: color 0.2s;
   }
-  .nav-links a:hover { color: #ffffff; }
+  .nav-links a:hover { color: var(--hot-pink); }
   .nav-cta {
     display: inline-block;
     padding: 0.5rem 1.25rem;
@@ -83,10 +83,10 @@
     color: #ffffff !important;
   }
   .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: #ffffff; transition: 0.3s; }
+  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--dark-grey); transition: 0.3s; }
 
   /* ---- HERO ---- */
-#hero {
+  #hero {
     position: relative;
     min-height: 100vh;
     display: flex;
@@ -97,7 +97,7 @@
     background-position: center 50%;
   }
 
-.hero-badge {
+  .hero-badge {
     display: inline-block;
     font-size: 0.7rem;
     letter-spacing: 0.25em;
@@ -112,20 +112,20 @@
     backdrop-filter: blur(4px);
   }
 
-.hero-headline {
+  .hero-headline {
     font-family: var(--sans);
     color: var(--dark-grey);
     line-height: 1.05;
     margin-bottom: 2rem;
   }
 
-.hero-headline .line-sm {
+  .hero-headline .line-sm {
     display: block;
     font-size: 74px;
     font-weight: 800;
   }
 
-.hero-headline .line-lg {
+  .hero-headline .line-lg {
     display: block;
     font-family: var(--script);
     font-size: 74px;
@@ -136,7 +136,6 @@
     line-height: 1.2;
   }
 
-  /* FIX: hero sub text in dark grey */
   .hero-sub {
     font-size: 1.5rem;
     color: var(--dark-grey);
@@ -201,6 +200,7 @@
     background: rgba(67,67,67,0.4);
   }
 
+  /* ---- STATS ---- */
   #stats {
     background: var(--dark-grey);
     padding: 1rem 5%;
@@ -258,57 +258,102 @@
   }
   .section-body.light { color: rgba(243,243,243,0.6); }
 
-  /* ---- CRATES ---- */
+  /* ---- COLOURWAYS STRIP ---- */
   #crates {
-    padding: 7rem 5%;
+    padding: 7rem 0;
     background: var(--light-grey);
   }
-  .crates-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 4rem;
-    gap: 2rem;
-  }
-  .crates-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 420px 360px;
-    gap: 1rem;
+  .cx-header {
+    padding: 0 5%;
     margin-bottom: 3rem;
   }
-  .crate-card {
+  .cx-strip {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .cx-strip::-webkit-scrollbar { display: none; }
+  .cx-strip.grabbing { cursor: grabbing; }
+  .cx-card {
+    flex: 0 0 320px;
+    height: 480px;
     position: relative;
     overflow: hidden;
-    border-radius: 4px;
-    background: var(--pale-grey);
+    border-radius: 6px;
+    border: 1px solid #c9a07a;
+    background: #1a1a1a;
+    transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.4s;
+    margin-right: 12px;
+    flex-shrink: 0;
   }
-  .crate-card:first-child { grid-row: 1 / 2; }
-  .crate-card:nth-child(2) { grid-row: 1 / 3; }
-  .crate-card:nth-child(3) { grid-row: 2 / 3; }
-  .crate-card img { transition: transform 0.6s ease; }
-  .crate-card:hover img { transform: scale(1.03); }
-  .crate-label {
-    position: absolute;
-    bottom: 1.25rem;
-    left: 1.25rem;
-    background: rgba(67,67,67,0.85);
-    backdrop-filter: blur(8px);
-    color: var(--light-grey);
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
+  .cx-card:last-child { margin-right: 0; }
+  .cx-card:hover {
+    transform: translateY(-8px);
+    border-color: #e8c4a0;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  }
+  .cx-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    filter: brightness(0.88);
+  }
+  .cx-card:hover .cx-img { transform: scale(1.04); filter: brightness(0.75); }
+  .cx-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 45%, transparent 70%);
+    pointer-events: none;
+  }
+  .cx-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.5rem 1.25rem 1.4rem;
+  }
+  .cx-name {
+    display: block;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    padding: 0.4rem 0.85rem;
-    border-radius: 2px;
+    color: #fff;
+    margin-bottom: 6px;
   }
-  .crates-footer {
+  .cx-tag {
+    display: block;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+    max-width: 240px;
+  }
+  .cx-card:hover .cx-tag { opacity: 1; transform: translateY(0); }
+  .cx-line {
+    display: block;
+    width: 28px; height: 1px;
+    background: #c9a07a;
+    margin-bottom: 10px;
+    transition: width 0.35s ease, background 0.35s ease;
+  }
+  .cx-card:hover .cx-line { width: 44px; background: #e8c4a0; }
+  .cx-footer {
+    padding: 3rem 5% 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
   }
-  .crates-footer p {
+  .cx-footer p {
     font-size: 0.9rem;
     color: var(--mid-grey);
     font-weight: 300;
@@ -490,13 +535,6 @@
   /* ---- RESPONSIVE ---- */
   @media (max-width: 900px) {
     #stats { grid-template-columns: repeat(2, 1fr); }
-    .crates-grid {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 280px 220px;
-    }
-    .crate-card:nth-child(2) { grid-row: 1 / 2; }
-    .crate-card:nth-child(3) { grid-row: 2 / 3; grid-column: 1 / 3; }
-    .crates-header { flex-direction: column; align-items: flex-start; }
     #about { grid-template-columns: 1fr; gap: 3rem; }
     .about-right {
       border-left: none;
@@ -512,19 +550,17 @@
       display: flex;
       flex-direction: column;
       position: fixed;
-      top: 72px; left: 0; right: 0; bottom: 0;
+      top: 52px; left: 0; right: 0; bottom: 0;
       background: var(--dark-grey);
       padding: 3rem 5%;
       gap: 2rem;
       align-items: flex-start;
       z-index: 99;
     }
-    .nav-links.open a { font-size: 1rem; }
+    .nav-links.open a { font-size: 1rem; color: rgba(255,255,255,0.85); }
     .nav-hamburger { display: flex; }
     #stats { grid-template-columns: 1fr 1fr; gap: 2.5rem 1rem; }
-    .crates-grid { grid-template-columns: 1fr; grid-template-rows: 300px 300px 260px 260px; }
-    .crate-card:nth-child(2) { grid-row: auto; }
-    .crate-card:nth-child(3) { grid-column: auto; }
+    .cx-card { flex: 0 0 260px; height: 400px; }
     .cushions-grid { grid-template-columns: 1fr 1fr; }
     .cushions-grid .cushion-card:last-child { display: none; }
     footer { flex-direction: column; align-items: flex-start; }
@@ -536,8 +572,8 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="#hero" class="nav-logo">
-  <img src="images/petxplorer-logo-site.png" alt="PetXplorer" style="height:44px; width:auto; object-fit:contain;">
-</a>
+    <img src="images/petxplorer-logo-site.png" alt="PetXplorer" style="height:44px; width:auto; object-fit:contain;">
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#crates">Crates</a></li>
     <li><a href="#cushions">Cushions</a></li>
@@ -586,35 +622,57 @@
   </div>
 </section>
 
-<!-- CRATES -->
+<!-- COLOURWAYS -->
 <section id="crates">
-  <div class="crates-header">
-    <div class="fade-up">
-      <p class="section-tag">The Collection</p>
-      <h2 class="section-title">Built for<br><em>every journey.</em></h2>
-    </div>
-    <p class="section-body fade-up fade-up-delay-1">Each crate features a colour-customisable base, top, and trim. Mix and match to create something completely unique to your pet.</p>
+  <div class="cx-header">
+    <p class="section-tag fade-up">The Collection</p>
+    <h2 class="section-title fade-up">Built for<br><em>every journey.</em></h2>
+    <p class="section-body fade-up" style="margin-top:1rem;">Each crate features a colour-customisable base, top, and trim. Mix and match to create something completely unique to your pet.</p>
   </div>
-  <div class="crates-grid">
-    <div class="crate-card fade-up">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBQ14NrzqcfPNBvuT8er3an-bVkMh6rtI1Qp1HuSIU29n3iNKGNspZF93D4gh5XJAXY6WvoMkggu0rhvwlcB6OqLpJr7sNlHz9JaXHx_DbaVT9VopQPKOpL01lzrGxgmPnBwIdguJz44pVooowoYho_OlBbvvH7z8x-6gIgM8dK4wmAbMRhok-q7ikdUnZQ1z-8OKhPBtdKS-bWfpOi1V7Is5w7VvWGv9_D=w1280" alt="PetXplorer travel crate">
-      <span class="crate-label">Signature Series</span>
+
+  <div class="cx-strip" id="cxStrip">
+    <div style="width:5%;flex-shrink:0;"></div>
+    <div class="cx-card fade-up">
+      <img class="cx-img" src="images/theclassic-crate.jpg" alt="The Classic crate">
+      <div class="cx-overlay"></div>
+      <div class="cx-bottom">
+        <span class="cx-line"></span>
+        <span class="cx-name">The Classic</span>
+        <span class="cx-tag">Understated elegance. Quietly refined at every terminal.</span>
+      </div>
     </div>
-    <div class="crate-card fade-up fade-up-delay-1">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBUWyLKRsc0ILBB7dt5xBKH7B2xcpevLe95BbmxXE6TSiTn7NE9vcVn0oo6Ef3OGBq_WYY83JCsAyLjYTi9B_-XU7FkDyUnH7wgxun5n83TUYhEq9m_ZaB6ZDzjBIa1LebDrw3VGHkDs2zYZnEmPXZTnzp5x7PPQwKhz0fuJ568-jNxiLOVE9glF2qu7v6O1o0L1oZb1sjf1Ui_AlURN9upf3OjYP4z6L4lNZU=w1280" alt="PetXplorer travel crate">
-      <span class="crate-label">Colour Your Way</span>
+    <div class="cx-card fade-up fade-up-delay-1">
+      <img class="cx-img" src="images/thesleek-crate.jpg" alt="The Sleek crate">
+      <div class="cx-overlay"></div>
+      <div class="cx-bottom">
+        <span class="cx-line"></span>
+        <span class="cx-name">The Sleek</span>
+        <span class="cx-tag">Arrive in style. Because they deserve the coolest ride.</span>
+      </div>
     </div>
-    <div class="crate-card fade-up fade-up-delay-2">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBHIIzQVJhGCbVIhPveoDHrY4f403qbbK1u5Rf-2drq0T2AaqkdkYbvDwR_i3ON8TBwEnPqQx3DM7RjwszDcOfGVkHaROUWlZxj_b8aMUS55NxpnQgvWP9X-RyFzLiH1B1RT_m9DkpobzSYEk1VcEYND1IM7PU0rmTiI4Th8HB4IQrY1saOVj5B7q343AkMkyZHldH_swmJ-1dR5r3PpgjVMeJHt4Tztl_b=w1280" alt="PetXplorer travel crate">
-      <span class="crate-label">Premium Build</span>
+    <div class="cx-card fade-up fade-up-delay-2">
+      <img class="cx-img" src="images/thebold-crate.jpg" alt="The Bold crate">
+      <div class="cx-overlay"></div>
+      <div class="cx-bottom">
+        <span class="cx-line"></span>
+        <span class="cx-name">The Bold</span>
+        <span class="cx-tag">Never lost in a crowd. Bright, bold, completely you.</span>
+      </div>
     </div>
-    <div class="crate-card fade-up fade-up-delay-3">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUASHKFlEzRvtFSRrn3MgG9Gt4MuwqSsIfL5pSuvFoCOCXAPZh-qw4pK8ftTLOrS3C_6W70rE4TUncQBpCicvByTCYA5bn7YDA6DM-3a7u-TGsq0y535yL64xr7k0V0yh0m0FJ8tXCutPY9-zUudGmmeuH_mt-gaV4NSANJCzGjs882Seoyv3OrVfQGhTCWttTcJ81P=w1280" alt="PetXplorer travel crate">
-      <span class="crate-label">Adventure Ready</span>
+    <div class="cx-card fade-up fade-up-delay-3">
+      <img class="cx-img" src="images/thestatement-crate.jpg" alt="The Statement crate">
+      <div class="cx-overlay"></div>
+      <div class="cx-bottom">
+        <span class="cx-line"></span>
+        <span class="cx-name">The Statement</span>
+        <span class="cx-tag">Serious. Sophisticated. Still the most stylish in the terminal.</span>
+      </div>
     </div>
+    <div style="width:5%;flex-shrink:0;"></div>
   </div>
-  <div class="crates-footer fade-up">
-    <p>Over 2,000 colour combinations - every crate is one of a kind.</p>
+
+  <div class="cx-footer fade-up">
+    <p>Over 2,000 colour combinations — every crate is one of a kind.</p>
     <a href="order.html" class="btn-primary">Find Your Crate &rarr;</a>
   </div>
 </section>
@@ -673,11 +731,11 @@
     <li><a href="#crates">Crates</a></li>
     <li><a href="#cushions">Cushions</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="order.html">Configure</a></li>
+    <li><a href="order.html">Build</a></li>
   </ul>
   <p class="footer-contact">
     Get in touch &nbsp;
-    <a href="mailto:hello@petxplorer.com.au">hello@petxplorer.com.au</a>
+    <a href="mailto:admimn@petxplorer.com.au">admin@petxplorer.com.au</a>
   </p>
 </footer>
 
@@ -693,12 +751,19 @@
     hero.style.backgroundPositionY = `calc(50% + ${scrolled * 0.4}px)`;
   });
 
+  const strip = document.getElementById('cxStrip');
+  let isDown = false, startX, scrollLeft;
+  strip.addEventListener('mousedown', e => { isDown = true; strip.classList.add('grabbing'); startX = e.pageX - strip.offsetLeft; scrollLeft = strip.scrollLeft; });
+  strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - strip.offsetLeft; strip.scrollLeft = scrollLeft - (x - startX) * 1.2; });
+
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
   hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
   hamburger.addEventListener('keydown', e => { if (e.key === 'Enter') navLinks.classList.toggle('open'); });
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-  
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
