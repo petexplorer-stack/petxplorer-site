@@ -591,15 +591,23 @@
 
   /* ---- RESPONSIVE OVERRIDES ---- */
   @media (min-width: 991px) {
+    #cushions {
+      padding: 7rem 5% !important;
+    }
     .cushions-grid {
       display: grid !important;
       grid-template-columns: 1fr 1.15fr 1fr;
       gap: 5rem;
-      padding: 0;
+      max-width: 1100px;         
+      margin-left: auto !important;  
+      margin-right: auto !important;  
+      padding: 0 !important;
+      width: 100%;
     }
     .cushion-card {
       margin-right: 0 !important;
       flex: unset !important;
+      width: 100% !important;    
     }
   }
 
