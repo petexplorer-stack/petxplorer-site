@@ -273,6 +273,7 @@
   .cx-strip {
     width: 100%;
     overflow-x: auto;
+    overflow-y: hidden !important; /* FIXED: Crates block vertical touch drag */
     display: flex;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -282,8 +283,8 @@
   .cx-strip::-webkit-scrollbar { display: none; }
   .cx-strip.grabbing { cursor: grabbing; }
   .cx-card {
-    flex: 0 0 320px;
-    height: 480px;
+    flex: 0 0 280px;
+    aspect-ratio: 1080/1350 !important; /* FIXED: True 1080x1350 crate crop fix layout */
     position: relative;
     overflow: hidden;
     border-radius: 6px;
@@ -291,7 +292,7 @@
     background: #1a1a1a;
     transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.4s;
     margin-right: 12px;
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
   }
   .cx-card:last-child { margin-right: 0; }
   .cx-card:hover {
@@ -407,41 +408,32 @@
 
   /* ---- CUSHIONS ---- */
   #cushions {
-    padding: 7rem 0;
+    padding: 7rem 5%; /* RESTORED: Standard padding */
     background: var(--pale-grey);
   }
   .cushions-header {
-    padding: 0 5%;
     max-width: 560px;
     margin: 0 auto 4rem;
     text-align: center;
   }
   .cushions-grid {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden !important; 
-    display: flex;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    cursor: grab;
-    user-select: none;
-    margin-bottom: 4rem;
-    padding: 0 5%;
+    display: grid; /* RESTORED: Back to the original clean desktop grid engine */
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 5rem; /* RESTORED: Your exact original wide gap space */
+    margin-bottom: 2.5rem;
+    align-items: center;
+    max-width: 1100px; /* RESTORED: Locked perfectly down to 1100px block width */
+    margin-left: auto; /* RESTORED: Middle aligns the rows cleanly on desktop PC */
+    margin-right: auto; /* RESTORED: Middle aligns the rows cleanly on desktop PC */
   }
-  .cushions-grid::-webkit-scrollbar { display: none; }
-  .cushions-grid.grabbing { cursor: grabbing; }
   .cushion-card {
-    flex: 0 0 280px;
-    aspect-ratio: 1080/1350;
+    aspect-ratio: 733/1092; /* RESTORED: Reverted safely to your original 733x1092 proportions */
     overflow: hidden;
     border-radius: 6px;
     background: var(--light-grey);
     border: 1px solid #c9a07a;
     transition: border-color 0.4s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-    margin-right: 16px;
-    flex-shrink: 0;
   }
-  .cushion-card:last-child { margin-right: 0; }
   .cushion-card:hover {
     border-color: #e8c4a0;
     transform: translateY(-6px);
@@ -453,43 +445,34 @@
   .cushions-usps {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 5%;
+    gap: 1rem;
   }
   .cushion-usp {
     background: var(--light-grey);
     border-radius: 6px;
-    padding: 1.5rem 1rem;
+    padding: 1.1rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
     text-align: center;
     border: 1px solid rgba(201,160,122,0.4);
-    min-height: 150px;
-    justify-content: flex-start;
   }
   .cushion-usp-icon {
-    font-size: 24px;
+    font-size: 22px;
     color: var(--hot-pink);
-    margin-bottom: 0.25rem;
   }
   .cushion-usp-label {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--dark-grey);
-    line-height: 1.3;
   }
   .cushion-usp-sub {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--mid-grey);
     font-weight: 300;
-    line-height: 1.4;
-    margin-top: auto;
   }
   /* ---- ABOUT ---- */
   #about {
@@ -591,33 +574,6 @@
   .fade-up-delay-3 { transition-delay: 0.35s; }
 
   /* ---- RESPONSIVE OVERRIDES ---- */
-  @media (min-width: 991px) {
-    #cushions {
-      padding: 7rem 5% !important;
-    }
-    .cushions-grid {
-      display: grid !important;
-      grid-template-columns: 1fr 1.15fr 1fr;
-      gap: 5rem;
-      max-width: 1300px;         
-      margin-left: auto !important;  
-      margin-right: auto !important;  
-      padding: 0 !important;
-      width: 100%;
-    }
-    .cushion-card {
-      margin-right: 0 !important;
-      flex: unset !important;
-      width: 100% !important;    
-    }
-  }
-
-  @media (max-width: 990px) {
-    .cushions-usps { grid-template-columns: repeat(2, 1fr); }
-    .cushion-usp { min-height: 130px; }
-    .cushion-card { flex: 0 0 240px; }
-  }
-
   @media (max-width: 900px) {
     #stats { grid-template-columns: repeat(2, 1fr); }
     #about { grid-template-columns: 1fr; gap: 3rem; }
@@ -645,19 +601,15 @@
     .nav-links.open a { font-size: 1rem; color: rgba(255,255,255,0.85); }
     .nav-hamburger { display: flex; }
     #stats { grid-template-columns: 1fr 1fr; gap: 2.5rem 1rem; padding: 2rem 5%; }
-    .cx-card { flex: 0 0 260px; height: 400px; }
     
-    .cushions-grid { 
-      padding: 0 5%;
+    /* FIXED: Mobile crate cards auto-scale off uncropped aspect ratio */
+    .cx-card { 
+      flex: 0 0 260px; 
+      height: auto !important; 
     }
-    .cushions-usps { 
-      grid-template-columns: 1fr; 
-      gap: 1rem; 
-    }
-    .cushion-usp {
-      min-height: auto;
-      padding: 1.25rem 1rem;
-    }
+
+    .cushions-grid { grid-template-columns: 1fr 1fr; }
+    .cushions-grid .cushion-card:last-child { display: none; }
     
     footer { flex-direction: column; align-items: flex-start; }
     #hero::before {
@@ -672,7 +624,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav id="navbar">
   <a href="#hero" class="nav-logo">
     <img src="images/petxplorer-logo-site.png" alt="PetXplorer" style="height:44px; width:auto; object-fit:contain;">
@@ -689,7 +640,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <span class="hero-badge">Queensland Made &nbsp;·&nbsp; IATA Engineered</span>
   <h1 class="hero-headline">
@@ -705,7 +655,6 @@
   <span class="hero-scroll-hint">Scroll to explore</span>
 </section>
 
-<!-- STATS -->
 <section id="stats">
   <div class="stat-item fade-up">
     <span class="stat-number">2,000+</span>
@@ -725,7 +674,6 @@
   </div>
 </section>
 
-<!-- COLOURWAYS -->
 <section id="crates">
   <div class="cx-header">
     <p class="section-tag fade-up">The Collection</p>
@@ -797,7 +745,6 @@
   </div>
 </section>
 
-<!-- CTA BAND -->
 <section id="cta-band">
   <div class="cta-band-inner fade-up">
     <p>Ready to design yours?</p>
@@ -806,14 +753,13 @@
   </div>
 </section>
 
-<!-- CUSHIONS -->
 <section id="cushions">
   <div class="cushions-header fade-up">
     <p class="section-tag">Comfort Cushions</p>
     <h2 class="section-title">Softness that<br><em>travels well.</em></h2>
     <p class="section-body" style="margin-top:1rem;">Handcrafted cushion inserts in beautiful prints, designed to fit perfectly inside your PetXplorer crate.</p>
   </div>
-  <div class="cushions-grid" id="cushionStrip">
+  <div class="cushions-grid">
     <div class="cushion-card fade-up">
       <img src="images/cushion-display.jpg" alt="Comfort cushion">
     </div>
@@ -848,7 +794,6 @@
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="fade-up">
     <p class="section-tag">About PetXplorer</p>
@@ -866,7 +811,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer id="contact">
   <a href="#hero" class="footer-logo">
   <img src="images/petxplore-logo-white.png" alt="PetXplorer" style="height:40px; width:auto; object-fit:contain;">
@@ -901,14 +845,6 @@
   strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
   strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
   strip.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - strip.offsetLeft; strip.scrollLeft = scrollLeft - (x - startX) * 1.2; });
-
-  // Cushion Horizontal Grab Scroll Logic
-  const cushionStrip = document.getElementById('cushionStrip');
-  let cushionIsDown = false, cushionStartX, cushionScrollLeft;
-  cushionStrip.addEventListener('mousedown', e => { cushionIsDown = true; cushionStrip.classList.add('grabbing'); cushionStartX = e.pageX - cushionStrip.offsetLeft; cushionScrollLeft = cushionStrip.scrollLeft; });
-  cushionStrip.addEventListener('mouseleave', () => { cushionIsDown = false; cushionStrip.classList.remove('grabbing'); });
-  cushionStrip.addEventListener('mouseup', () => { cushionIsDown = false; cushionStrip.classList.remove('grabbing'); });
-  cushionStrip.addEventListener('mousemove', e => { if (!cushionIsDown) return; e.preventDefault(); const x = e.pageX - cushionStrip.offsetLeft; cushionStrip.scrollLeft = cushionScrollLeft - (x - cushionStartX) * 1.2; });
 
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
