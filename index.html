@@ -45,6 +45,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+   background: var(--light-grey);
     transition: background 0.4s ease, box-shadow 0.4s ease;
   }
   nav.scrolled {
@@ -203,7 +204,7 @@
   /* ---- STATS ---- */
   #stats {
     background: var(--dark-grey);
-    padding: 1rem 5%;
+    padding: 0.6rem 5%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
@@ -213,20 +214,19 @@
   .stat-item { text-align: center; }
   .stat-number {
     font-family: var(--sans);
-    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-size: clamp(1.2rem, 3vw, 2rem);
     font-weight: 700;
     color: var(--hot-pink);
     display: block;
     line-height: 1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
   .stat-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: rgba(243,243,243,0.5);
   }
-
   /* ---- SECTION SHARED ---- */
   .section-tag {
     font-size: 0.65rem;
@@ -362,7 +362,7 @@
   /* ---- CTA BAND ---- */
   #cta-band {
     background: var(--dark-grey);
-    padding: 6rem 5%;
+    padding: 3rem 5%;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -420,8 +420,15 @@
   .cushion-card {
     aspect-ratio: 3/4;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: 6px;
     background: var(--light-grey);
+    border: 1px solid #c9a07a;
+    transition: border-color 0.4s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .cushion-card:hover {
+    border-color: #e8c4a0;
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.12);
   }
   .cushion-card img { transition: transform 0.6s ease; }
   .cushion-card:hover img { transform: scale(1.04); }
@@ -564,6 +571,13 @@
     .cushions-grid { grid-template-columns: 1fr 1fr; }
     .cushions-grid .cushion-card:last-child { display: none; }
     footer { flex-direction: column; align-items: flex-start; }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.35);
+      pointer-events: none;
+    }
   }
 </style>
 </head>
@@ -695,13 +709,13 @@
   </div>
   <div class="cushions-grid">
     <div class="cushion-card fade-up">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDkzpEejlE4MQswHCLqG-3JfN1s7FCAcVtLHyvIa7bs4mFOXYbWzytkD7QjhcPfM7EPZ5SoPY35banSgzdUC3_7QLxBbb7yrt7RrwzT_UQmrUXpX2JN4aHL7M9w74TbsyQydrSUpNd2BCQxCyOacSDmhNqxJ9wRth-zJGeS4OW7SS5T1s7ZQ-rywGSEiIYz4315LsO7oKX4hoL4ReWqK2svVY0W3_12v3mW=w1280" alt="Comfort cushion">
+      <img src="images/cushion-display.jpg" alt="Comfort cushion">
     </div>
     <div class="cushion-card fade-up fade-up-delay-1">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC9B5CJimeUZXgq_XPRY1uxT4yQ2IGf6vJDTqa47Kn_amfskuaX5xXQ56fTWKggt1iRVxWLOqyxmJF4kQflFbbZwE1h17kJdm4M8YcxpYapy_QzT9dTzjtvPCY8EYaCaO1Iy8k2rIH2T3q_Tn7zzCpppP-zf25-i1oVU5H5IoGOFxmZOEJkuQm9LlEC1nSXMM_1jz6nKt928d4oJSu5bmlavWU6pbz_5Z6_=w1280" alt="Comfort cushion">
+      <img src="images/cat-cushion.jpg" alt="Comfort cushion">
     </div>
     <div class="cushion-card fade-up fade-up-delay-2">
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC61kRFF8bvxc6OBoTyhcEGzGgdhtfAqESbSEQuU4RfmH4_Eb21WXKWnwa1Gyh8_Uu5AfYfZg1aOTQ4EpgDiDv3wS5pUYekWwSTaP5NnXu15jalX8PI4I7HsCT5_tutDrM4ry9IIyy7WWqAmxy4OLyIE1mFdi4gt2Ysp_iKaQwgWT7_BeRdS7bWZD2mEz3zmfuc9HbMX13Pp1urC9G_Nz9HJ4j86X-WKBOvrhw=w1280" alt="Comfort cushion">
+      <img src="images/cushion-display-2.jpg" alt="Comfort cushion">
     </div>
   </div>
 </section>
