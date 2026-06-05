@@ -419,6 +419,7 @@
   .cushions-grid {
     width: 100%;
     overflow-x: auto;
+    overflow-y: hidden !important; 
     display: flex;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -431,7 +432,7 @@
   .cushions-grid.grabbing { cursor: grabbing; }
   .cushion-card {
     flex: 0 0 280px;
-    aspect-ratio: 733/1092;
+    aspect-ratio: 1080/1350;
     overflow: hidden;
     border-radius: 6px;
     background: var(--light-grey);
@@ -598,7 +599,7 @@
       display: grid !important;
       grid-template-columns: 1fr 1.15fr 1fr;
       gap: 5rem;
-      max-width: 1100px;         
+      max-width: 1300px;         
       margin-left: auto !important;  
       margin-right: auto !important;  
       padding: 0 !important;
