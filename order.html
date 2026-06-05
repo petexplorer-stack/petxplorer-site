@@ -1590,7 +1590,7 @@ const links = {
 };
 
 const COLOURS = {
-  top: [{name:'White Shimmer',hex:'#ffffff'},{name:'Charcoal',hex:'#33363b'},{name:'Baby Pink',hex:'#e8ccd3'},{name:'Baby Blue',hex:'#6fb4f2'},{name:'Lilac',hex:'#bdb9d6'},{name:'Lipstick Pink',hex:'#c44d82'},{name:'Grape',hex:'#4d3652'},{name:'Yellow',hex:'#e8b900'},{name:'Gold',hex:'#b5985a'},{name:'Silver',hex:'#a8abb0'},{name:'Pearl Blue',hex:'#008cb5'},{name:'Jade',hex:'#5da89b'},{name:'Pinky Purple',hex:'#c28da3'}],
+  top: [{name:'White Shimmer',hex:'#ffffff'},{name:'Charcoal',hex:'#33363b'},{name:'Baby Pink',hex:'#e8ccd3'},{name:'Baby Blue',hex:'#6fb4f2'},{name:'Lilac',hex:'#bdb9d6'},{name:'Lipstick Pink',hex: '#c44d82',renderHex: '#ff1493'},{name:'Grape',hex:'#4d3652'},{name:'Yellow',hex:'#e8b900'},{name:'Gold',hex:'#b5985a'},{name:'Silver',hex:'#a8abb0'},{name:'Pearl Blue',hex:'#008cb5'},{name:'Jade',hex:'#5da89b'},{name:'Pinky Purple',hex:'#c28da3'}],
   base: [{name:'Charcoal',hex:'#4a4d52'},{name:'Baby Pink',hex:'#e6c2cb'},{name:'Grape',hex:'#4d3550'},{name:'Gold',hex:'#a39265'},{name:'Silver',hex:'#b2b5ba'},{name:'Pearl Blue',hex:'#a8c7db'},{name:'Jade',hex:'#6b9c94'},{name:'Navy',hex:'#2c3e5e'}],
   trim: [{name:'Pearl White',hex:'#e8e4db'},{name:'Charcoal',hex:'#2d2f33'},{name:'Navy',hex:'#232b3d'},{name:'Orange',hex:'#e0601d'},{name:'Lime',hex:'#bed630'},{name:'Ruby',hex:'#a12041'},{name:'Lilac',hex:'#b0abc9'},{name:'Lipstick Pink',hex:'#e33b8a'},{name:'Mint',hex:'#a8e3c5'},{name:'Mauve',hex:'#939bc4'},{name:'Gold',hex:'#9c8548'},{name:'Silver',hex:'#a3a8ad'},{name:'Pearl Blue',hex:'#008eb5'},{name:'Jade',hex:'#1c8a87'},{name:'Pinky Purple',hex:'#cf86a3'},{name:'Black Sparkle',hex:'#26292e'}]
 };
@@ -1617,12 +1617,21 @@ let extraQuantities = {};
 function render() {
   if (state.loaded < 5) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawLayer(state.images.base,      state.current.base,  false);
-  drawLayer(state.images.trimLeft,  state.current.trim,  false);
-  drawLayer(state.images.top,       state.current.top,   true);
-  drawLayer(state.images.trimRight, state.current.trim,  false);
-  drawLayer(state.images.handle,    state.current.trim,  false);
+
+  // Calibrate colors on the fly for the canvas engine
+  const baseColor = { ...state.current.base, hex: state.current.base.renderHex || state.current.base.hex };
+  const trimColor = { ...state.current.trim, hex: state.current.trim.renderHex || state.current.trim.hex };
+  const topColor  = { ...state.current.top,  hex: state.current.top.renderHex  || state.current.top.hex  };
+
+  drawLayer(state.images.base,      baseColor, false);
+  drawLayer(state.images.trimLeft,  trimColor, false);
+  drawLayer(state.images.top,       topColor,  true);
+  drawLayer(state.images.trimRight, trimColor, false);
+  drawLayer(state.images.handle,    trimColor, false);
+
   ctx.drawImage(state.images.crateDoor, 0, 0, 1000, 800);
+
+  // This handles the UI elements - keeping them matched to the real swatch hex
   ['top','trim','base'].forEach(c => {
     const hex = state.current[c].hex;
     const nameEl = document.getElementById('name-'+c);
